@@ -38,17 +38,27 @@ class Tablero:
 			"posibles_movimientos_negras" : posibles_movimientos_jugador(Color.Negras),
 		}
 
-	def distancia(color):
+	#Retorna la suma de las distancias de las fichas de color "color" hacia la fila libre mas lejana de la punta opuesta
+	def distancia(self, color):
 		return 0
 
-	def posibles_movimientos_jugador(color):
+	#Retorna la cantidad de movimientos posibles para el jugador con color "color"
+	#Incluye movimientos "hacia atras"
+	def posibles_movimientos_jugador(self, color):
 		return 0
 
-	def posiciones_disminuyen_distancia_jugador(color):
+	#Retorna las cantidad de movimientos posibles para el jugador con color "color", que lo acercan a la punta opuesta
+	def posiciones_disminuyen_distancia_jugador(self, color):
 		return 0
 
-	def fichas_en_punta_opuesta(color):
-		return 0
+	#Retorna la cantidad de fichas en la punta opuesta del tablero para el color "color"
+	def fichas_en_punta_opuesta(self, color):
+		contador = 0
+		lista = self.negras if color == Color.Negras else self.blancas
+		for pos in lista:
+				if pos in punta_blanca:
+					contador += 1
+		return contador
 
 	# Dadas las coordenadas cartesianas de una posición (en una tupla) devuelve True sii la posición pertenece al tablero
 	def pertenece_al_tablero(self, pos):
