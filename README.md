@@ -23,4 +23,4 @@ Donde:
 8.  x8 es lo mismo que x7 pero para las fichas negras
 
 Entonces, la función objetivo se representa como:
-F(x1,x2,x3,x4,x5,x6,x7,x8) = w0 + w1*x1 + ... + w8*x8
+F(x1,x2,x3,x4,x5,x6,x7,x8) = w0 + w1\*x1 + ... + w8\*x8
