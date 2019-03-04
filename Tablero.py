@@ -1,4 +1,5 @@
 from Constantes import *
+from enum import Enum
 
 '''
 La clase tablero contiene las posiciones del tablero, las posiciones de las
@@ -12,14 +13,42 @@ Por fuera de la clase se provee de un método para generar nuevos tableros a par
 una lista de posibles movimientos.
 '''
 
-class Tablero:
 
+class Color(Enum):
+	Blancas = "blancas"
+	Negras = "negras"
+
+class Tablero:
 	def __init__(self):
 
 		# Inicializar las piezas de ambos jugadores (blancas y negras)
 		# Las negras comienzan en la punta superior de la estrella y las blancas en la punta inferior
 		self.negras = punta_negra.copy()
 		self.blancas = punta_blanca.copy()
+
+		# Tupla del tablero
+		self.tupla = {
+			"distancia_blancas" : distancia(Color.Blancas),
+			"distancia_negras" : distancia(Color.Negras),
+			"fichas_blancas_en_punta_opuesta" : fichas_en_punta_opuesta(Color.Blancas),
+			"fichas_negras_en_punta_opuesta" : fichas_en_punta_opuesta(Color.Negras),
+			"posiciones_disminuyen_distancia_blancas" : posiciones_disminuyen_distancia_jugador(Color.Blancas),
+			"posiciones_disminuyen_distancia_negras" : posiciones_disminuyen_distancia_jugador(Color.Negras),
+			"posibles_movimientos_blancas" : posibles_movimientos_jugador(Color.Blancas),
+			"posibles_movimientos_negras" : posibles_movimientos_jugador(Color.Negras),
+		}
+
+	def distancia(color):
+		return 0
+
+	def posibles_movimientos_jugador(color):
+		return 0
+
+	def posiciones_disminuyen_distancia_jugador(color):
+		return 0
+
+	def fichas_en_punta_opuesta(color):
+		return 0
 
 	# Dadas las coordenadas cartesianas de una posición (en una tupla) devuelve True sii la posición pertenece al tablero
 	def pertenece_al_tablero(self, pos):
