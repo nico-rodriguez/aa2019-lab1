@@ -45,11 +45,23 @@ class Tablero:
 	#Retorna la cantidad de movimientos posibles para el jugador con color "color"
 	#Incluye movimientos "hacia atras"
 	def posibles_movimientos_jugador(self, color):
-		return 0
+		contador = 0
+		lista = self.negras if color == Color.Negras else self.blancas
+		for pos in lista:
+			contador += len(posibles_movimientos(pos))
+		return contador
 
 	#Retorna las cantidad de movimientos posibles para el jugador con color "color", que lo acercan a la punta opuesta
 	def posiciones_disminuyen_distancia_jugador(self, color):
-		return 0
+		contador = 0
+		lista = self.negras if color == Color.Negras else self.blancas
+		for pos_x,pos_y in lista:
+			posibles_movimientos = posibles_movimientos((pos_x,pos_y))
+			for movimiento_x,movimiento_y in posibles_movimientos:
+				if movimiento_x <= pos_x:
+					posibles_movimientos.remove((movimiento_x,movimiento_y)) 
+			contador += len(posibles_movimientos)
+		return contador
 
 	#Retorna la cantidad de fichas en la punta opuesta del tablero para el color "color"
 	def fichas_en_punta_opuesta(self, color):
