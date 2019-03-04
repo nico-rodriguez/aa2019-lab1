@@ -25,6 +25,7 @@ class Tablero:
 		# Las negras comienzan en la punta superior de la estrella y las blancas en la punta inferior
 		self.negras = punta_negra.copy()
 		self.blancas = punta_blanca.copy()
+		self.largo_tablero = 8
 
 		# Tupla del tablero
 		self.tupla = {
@@ -40,7 +41,12 @@ class Tablero:
 
 	#Retorna la suma de las distancias de las fichas de color "color" hacia la fila libre mas lejana de la punta opuesta
 	def distancia(self, color):
-		return 0
+		contador = 0
+		ultima_fila = -self.largo_tablero if color == Color.Negras else self.largo_tablero
+		lista = self.negras if color == Color.Negras else self.blancas
+		for pos_x, _ in lista:
+			 contador += abs(ultima_fila - pos_x)
+		return contador
 
 	#Retorna la cantidad de movimientos posibles para el jugador con color "color"
 	#Incluye movimientos "hacia atras"
