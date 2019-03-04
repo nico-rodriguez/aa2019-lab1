@@ -28,6 +28,6 @@ F(x1,x2,x3,x4,x5,x6,x7,x8) = w0 + w1\*x1 + ... + w8\*x8
 Algoritmo de aproximación:
 1. El ajuste de los valores de entrenamiento, (propagación hacia atras) se hace considerando el mejor valor de la función objetivo sobre los tableros siguientes,
 multiplicado por un factor gamma (factor de propagación).
-2. El ajuste de los pesos se hace con el método de mínimos cuadrados
+2. El ajuste de los pesos se hace con el método de mínimos cuadrados.
 
 La propagación se realiza luego de cada jugada.
