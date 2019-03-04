@@ -45,7 +45,7 @@ class Tablero:
 		ultima_fila = -self.largo_tablero if color == Color.Negras else self.largo_tablero
 		lista = self.negras if color == Color.Negras else self.blancas
 		for pos_x, _ in lista:
-			 contador += abs(ultima_fila - pos_x)
+			contador += abs(ultima_fila - pos_x)
 		return contador
 
 	#Retorna la cantidad de movimientos posibles para el jugador con color "color"

@@ -18,9 +18,11 @@ class Aleatorio(Jugador):
 		super(Aleatorio, self).__init__()
 	
 	def mejor_jugada(self, tablero, fichas):
-		mover_ficha = random.choice(fichas)
-		movimientos = tablero.posibles_movimientos(mover_ficha)
-		return nuevo_tablero(tablero, mover_ficha, random.choice(movimientos))
+		while True:
+			mover_ficha = random.choice(fichas)
+			movimientos = tablero.posibles_movimientos(mover_ficha)
+			if movimientos:
+				return nuevo_tablero(tablero, mover_ficha, random.choice(movimientos))
 
 class AI(Jugador):
 
