@@ -39,6 +39,25 @@ class Tablero:
 			"posibles_movimientos_negras" : posibles_movimientos_jugador(Color.Negras),
 		}
 
+	# tablero_actual es una instancia de Tablero
+	# ficha es una tupla con la posición de la ficha a mover
+	# movimiento es una tupla con la nueva posición de la ficha
+	def actualizar_tablero(self, ficha, movimiento, color):
+		lista = self.negras if color == Color.Negras else self.blancas
+		lista.remove(ficha)
+		lista.append(movimiento)
+		actualizar_tupla()
+
+	def actualizar_tupla(self):
+		self.tupla["distancia_blancas"] = distancia(Color.Blancas)
+		self.tupla["distancia_negras"] = distancia(Color.Negras)
+		self.tupla["fichas_blancas_en_punta_opuesta"] = fichas_en_punta_opuesta(Color.Blancas)
+		self.tupla["fichas_negras_en_punta_opuesta"] = fichas_en_punta_opuesta(Color.Negras)
+		self.tupla["posiciones_disminuyen_distancia_blancas"] = posiciones_disminuyen_distancia_jugador(Color.Blancas)
+		self.tupla["posiciones_disminuyen_distancia_negras"] = posiciones_disminuyen_distancia_jugador(Color.Negras)
+		self.tupla["posibles_movimientos_blancas"] = posibles_movimientos_jugador(Color.Blancas)
+		self.tupla["posibles_movimientos_negras"] = posibles_movimientos_jugador(Color.Negras)
+
 	#Retorna la suma de las distancias de las fichas de color "color" hacia la fila libre mas lejana de la punta opuesta
 	def distancia(self, color):
 		contador = 0
@@ -187,13 +206,6 @@ class Tablero:
 				else:
 					print(" ", end="")
 			print()
-
-# tablero_actual es una instancia de Tablero
-# ficha es una tupla con la posición de la ficha a mover
-# movimiento es una tupla con la nueva posición de la ficha
-def nuevo_tablero(tablero_actual, ficha, movimiento):
-
-	return Tablero()
 
 # Para debuggeing
 if __name__ == '__main__':
