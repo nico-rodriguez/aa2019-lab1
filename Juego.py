@@ -37,7 +37,10 @@ class Juego:
     #Jugar una partida entre los jugadores que son atributos de la clase Juego
     #Devuelve el color del ganador
     def jugar(self):
+        turnos = 0
         while not self.__hay_ganador():
             self.__jugada(Color.Blancas)
             self.__jugada(Color.Negras)
+            turnos += 1
+            print(f"Turnos = {turnos}")
         return self.__ganador()

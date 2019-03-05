@@ -27,7 +27,9 @@ class Aleatorio(Jugador):
 			mover_ficha = random.choice(fichas)
 			movimientos = tablero.posibles_movimientos(mover_ficha)
 			if movimientos:
-				return nuevo_tablero(tablero, mover_ficha, random.choice(movimientos))
+				movimiento = random.choice(movimientos)
+				tablero.actualizar_tablero(mover_ficha, movimiento, self.color)
+				return tablero
 
 class AI(Jugador):
 

@@ -45,19 +45,19 @@ class Tablero:
 		lista = self.negras if color == Color.Negras else self.blancas
 		lista.remove(ficha)
 		lista.append(movimiento)
-		actualizar_tupla(color)
+		self.actualizar_tupla(color)
 
 	def actualizar_tupla(self, color):
 		if color == Color.Blancas:
-			self.tupla["distancia_blancas"] = distancia(Color.Blancas)
-			self.tupla["fichas_blancas_en_punta_opuesta"] = fichas_en_punta_opuesta(Color.Blancas)
-			self.tupla["posiciones_disminuyen_distancia_blancas"] = posiciones_disminuyen_distancia_jugador(Color.Blancas)
-			self.tupla["posibles_movimientos_blancas"] = posibles_movimientos_jugador(Color.Blancas)
+			self.tupla["distancia_blancas"] = self.distancia(Color.Blancas)
+			self.tupla["fichas_blancas_en_punta_opuesta"] = self.fichas_en_punta_opuesta(Color.Blancas)
+			self.tupla["posiciones_disminuyen_distancia_blancas"] = self.posiciones_disminuyen_distancia_jugador(Color.Blancas)
+			self.tupla["posibles_movimientos_blancas"] = self.posibles_movimientos_jugador(Color.Blancas)
 		else:
-			self.tupla["distancia_negras"] = distancia(Color.Negras)
-			self.tupla["fichas_negras_en_punta_opuesta"] = fichas_en_punta_opuesta(Color.Negras)
-			self.tupla["posiciones_disminuyen_distancia_negras"] = posiciones_disminuyen_distancia_jugador(Color.Negras)
-			self.tupla["posibles_movimientos_negras"] = posibles_movimientos_jugador(Color.Negras)
+			self.tupla["distancia_negras"] = self.distancia(Color.Negras)
+			self.tupla["fichas_negras_en_punta_opuesta"] = self.fichas_en_punta_opuesta(Color.Negras)
+			self.tupla["posiciones_disminuyen_distancia_negras"] = self.posiciones_disminuyen_distancia_jugador(Color.Negras)
+			self.tupla["posibles_movimientos_negras"] = self.posibles_movimientos_jugador(Color.Negras)
 
 	#Retorna la suma de las distancias de las fichas de color "color" hacia la fila libre mas lejana de la punta opuesta
 	def distancia(self, color):
@@ -72,8 +72,9 @@ class Tablero:
 	def fichas_en_punta_opuesta(self, color):
 		contador = 0
 		lista = self.negras if color == Color.Negras else self.blancas
+		punta_opuesta = punta_blanca if color == Color.Negras else punta_negra
 		for pos in lista:
-				if pos in punta_blanca:
+				if pos in punta_opuesta:
 					contador += 1
 		return contador
 
@@ -125,8 +126,7 @@ class Tablero:
 
 		posibles_movimientos = set()	# conjunto con los posibles movimientos (posiciones libres)
 		posibles_saltos = set()			# conjunto que contiene posiciones libres (salvo la posición inicial, que tiene la ficha que se va a mover) desde las que se podría saltar
-		#saltos_considerados = set()		# conjunto que contiene posiciones libres que ya fueron consideradas para saltar desde ellas (ayuda a evitar caer en loop infinito)
-
+	
 		adyacentes_libres, adyacentes_ocupadas = self.posiciones_adyacentes(pos)
 		posibles_movimientos.update(adyacentes_libres)
 		posibles_saltos.add(pos)
@@ -146,7 +146,7 @@ class Tablero:
 							posibles_movimientos.add(nueva_pos)
 							posibles_saltos.add(nueva_pos)
 
-		return posibles_movimientos
+		return list(posibles_movimientos)
 
 	#Retorna la cantidad de movimientos posibles para el jugador con color "color"
 	#Incluye movimientos "hacia atras"
