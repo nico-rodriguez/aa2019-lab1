@@ -28,14 +28,14 @@ class Tablero:
 
 		# Tupla del tablero
 		self.tupla = {
-			"distancia_blancas" : distancia(Color.Blancas),
-			"distancia_negras" : distancia(Color.Negras),
-			"fichas_blancas_en_punta_opuesta" : fichas_en_punta_opuesta(Color.Blancas),
-			"fichas_negras_en_punta_opuesta" : fichas_en_punta_opuesta(Color.Negras),
-			"posiciones_disminuyen_distancia_blancas" : posiciones_disminuyen_distancia_jugador(Color.Blancas),
-			"posiciones_disminuyen_distancia_negras" : posiciones_disminuyen_distancia_jugador(Color.Negras),
-			"posibles_movimientos_blancas" : posibles_movimientos_jugador(Color.Blancas),
-			"posibles_movimientos_negras" : posibles_movimientos_jugador(Color.Negras),
+			"distancia_blancas" : self.distancia(Color.Blancas),
+			"distancia_negras" : self.distancia(Color.Negras),
+			"fichas_blancas_en_punta_opuesta" : self.fichas_en_punta_opuesta(Color.Blancas),
+			"fichas_negras_en_punta_opuesta" : self.fichas_en_punta_opuesta(Color.Negras),
+			"posiciones_disminuyen_distancia_blancas" : self.posiciones_disminuyen_distancia_jugador(Color.Blancas),
+			"posiciones_disminuyen_distancia_negras" : self.posiciones_disminuyen_distancia_jugador(Color.Negras),
+			"posibles_movimientos_blancas" : self.posibles_movimientos_jugador(Color.Blancas),
+			"posibles_movimientos_negras" : self.posibles_movimientos_jugador(Color.Negras),
 		}
 
 	# tablero_actual es una instancia de Tablero
@@ -66,27 +66,6 @@ class Tablero:
 		lista = self.negras if color == Color.Negras else self.blancas
 		for pos_x, _ in lista:
 			contador += abs(ultima_fila - pos_x)
-		return contador
-
-	#Retorna la cantidad de movimientos posibles para el jugador con color "color"
-	#Incluye movimientos "hacia atras"
-	def posibles_movimientos_jugador(self, color):
-		contador = 0
-		lista = self.negras if color == Color.Negras else self.blancas
-		for pos in lista:
-			contador += len(posibles_movimientos(pos))
-		return contador
-
-	#Retorna las cantidad de movimientos posibles para el jugador con color "color", que lo acercan a la punta opuesta
-	def posiciones_disminuyen_distancia_jugador(self, color):
-		contador = 0
-		lista = self.negras if color == Color.Negras else self.blancas
-		for pos_x,pos_y in lista:
-			posibles_movimientos = posibles_movimientos((pos_x,pos_y))
-			for movimiento_x,movimiento_y in posibles_movimientos:
-				if movimiento_x <= pos_x:
-					posibles_movimientos.remove((movimiento_x,movimiento_y)) 
-			contador += len(posibles_movimientos)
 		return contador
 
 	#Retorna la cantidad de fichas en la punta opuesta del tablero para el color "color"
@@ -168,6 +147,27 @@ class Tablero:
 							posibles_saltos.add(nueva_pos)
 
 		return posibles_movimientos
+
+	#Retorna la cantidad de movimientos posibles para el jugador con color "color"
+	#Incluye movimientos "hacia atras"
+	def posibles_movimientos_jugador(self, color):
+		contador = 0
+		lista = self.negras if color == Color.Negras else self.blancas
+		for pos in lista:
+			contador += len(self.posibles_movimientos(pos))
+		return contador
+
+	#Retorna las cantidad de movimientos posibles para el jugador con color "color", que lo acercan a la punta opuesta
+	def posiciones_disminuyen_distancia_jugador(self, color):
+		contador = 0
+		lista = self.negras if color == Color.Negras else self.blancas
+		for pos_x,pos_y in lista:
+			posibles_movimientos = self.posibles_movimientos((pos_x,pos_y))
+			contador += len(posibles_movimientos)
+			for movimiento_x,_ in posibles_movimientos:
+				if movimiento_x <= pos_x:
+					contador -= 1
+		return contador
 
 	# Para debugging
 	def imprimir_tablero(self):

@@ -1,5 +1,6 @@
 from Jugadores import *
 from Constantes import *
+from Tablero import *
 
 class Juego:
 

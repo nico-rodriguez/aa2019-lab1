@@ -23,13 +23,13 @@ if __name__ == '__main__':
     print ('Number of arguments:', len(sys.argv), 'arguments.')
     print ('Argument List:', str(sys.argv))
     #Chequear número y valores de los argumentos
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 4:
         print("***Número incorrecto de parámetros***")
         print(uso)
 
     jugador1_str = sys.argv[1]
     jugador2_str = sys.argv[2]
-    num_partidas = sys.argv[3]
+    num_partidas = int(sys.argv[3])
 
     if not(jugador1_str in jugadores and jugador2_str in jugadores):
         print("***Valores incorrectos para los jugadores***")
@@ -38,8 +38,8 @@ if __name__ == '__main__':
         print("***El número de partidas debe ser al menos de 100***")
         print(uso)
 
-    jugador1 = Aleatorio() if jugador1_str == "Aleatorio" else AI()
-    jugador2 = Aleatorio() if jugador1_str == "Aleatorio" else AI()
+    jugador1 = Aleatorio(Color.Blancas, "Aleatorio") if jugador1_str == "Aleatorio" else AI(Color.Blancas, "AI1", None)
+    jugador2 = Aleatorio(Color.Negras, "Aleatorio") if jugador1_str == "Aleatorio" else AI(Color.Negras, "AI1", None)
     juego = Juego(jugador1, jugador2)
     victorias = 0
 
@@ -47,4 +47,4 @@ if __name__ == '__main__':
         ganador = juego.jugar()
         #Para debugging
         print(ganador)
-        print("Victorias = {victorias}")
+        print(f"Victorias = {victorias}")

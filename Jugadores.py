@@ -19,7 +19,7 @@ class Jugador(object):
 class Aleatorio(Jugador):
 
 	def __init__(self, color, nombre):
-		super(Aleatorio, self, color, nombre).__init__()
+		super(Aleatorio, self).__init__(color, nombre)
 	
 	def mejor_jugada(self, tablero):
 		fichas = tablero.negras if self.color == Color.Negras else tablero.blancas
@@ -32,7 +32,7 @@ class Aleatorio(Jugador):
 class AI(Jugador):
 
 	def __init__(self, color, nombre, pesos):
-		super(AI, self, color, nombre).__init__()
+		super(AI, self).__init__(color, nombre)
 		self.pesos = pesos
 	
 	def mejor_jugada(self, tablero):
