@@ -13,7 +13,6 @@ Por fuera de la clase se provee de un método para generar nuevos tableros a par
 una lista de posibles movimientos.
 '''
 
-
 class Color(Enum):
 	Blancas = "blancas"
 	Negras = "negras"
