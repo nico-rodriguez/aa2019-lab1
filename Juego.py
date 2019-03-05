@@ -22,8 +22,8 @@ class Juego:
 
     #Retorna true si hay un ganador para el tablero actual
     def __hay_ganador(self):
-        return self.tablero.tupla.["fichas_blancas_en_punta_opuesta"] == 10 || 
-        self.tablero.tupla.["fichas_negras_en_punta_opuesta"] == 10
+        return self.tablero.tupla["fichas_blancas_en_punta_opuesta"] == 10 || 
+        self.tablero.tupla["fichas_negras_en_punta_opuesta"] == 10
     
     #Retorna el ganador solo en caso que haya (hay_ganador == true) sino retorna None
     def __ganador(self):
