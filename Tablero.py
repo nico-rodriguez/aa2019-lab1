@@ -45,17 +45,19 @@ class Tablero:
 		lista = self.negras if color == Color.Negras else self.blancas
 		lista.remove(ficha)
 		lista.append(movimiento)
-		actualizar_tupla()
+		actualizar_tupla(color)
 
-	def actualizar_tupla(self):
-		self.tupla["distancia_blancas"] = distancia(Color.Blancas)
-		self.tupla["distancia_negras"] = distancia(Color.Negras)
-		self.tupla["fichas_blancas_en_punta_opuesta"] = fichas_en_punta_opuesta(Color.Blancas)
-		self.tupla["fichas_negras_en_punta_opuesta"] = fichas_en_punta_opuesta(Color.Negras)
-		self.tupla["posiciones_disminuyen_distancia_blancas"] = posiciones_disminuyen_distancia_jugador(Color.Blancas)
-		self.tupla["posiciones_disminuyen_distancia_negras"] = posiciones_disminuyen_distancia_jugador(Color.Negras)
-		self.tupla["posibles_movimientos_blancas"] = posibles_movimientos_jugador(Color.Blancas)
-		self.tupla["posibles_movimientos_negras"] = posibles_movimientos_jugador(Color.Negras)
+	def actualizar_tupla(self, color):
+		if color == Color.Blancas:
+			self.tupla["distancia_blancas"] = distancia(Color.Blancas)
+			self.tupla["fichas_blancas_en_punta_opuesta"] = fichas_en_punta_opuesta(Color.Blancas)
+			self.tupla["posiciones_disminuyen_distancia_blancas"] = posiciones_disminuyen_distancia_jugador(Color.Blancas)
+			self.tupla["posibles_movimientos_blancas"] = posibles_movimientos_jugador(Color.Blancas)
+		else:
+			self.tupla["distancia_negras"] = distancia(Color.Negras)
+			self.tupla["fichas_negras_en_punta_opuesta"] = fichas_en_punta_opuesta(Color.Negras)
+			self.tupla["posiciones_disminuyen_distancia_negras"] = posiciones_disminuyen_distancia_jugador(Color.Negras)
+			self.tupla["posibles_movimientos_negras"] = posibles_movimientos_jugador(Color.Negras)
 
 	#Retorna la suma de las distancias de las fichas de color "color" hacia la fila libre mas lejana de la punta opuesta
 	def distancia(self, color):
