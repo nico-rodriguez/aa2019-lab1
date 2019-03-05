@@ -30,7 +30,7 @@ class Juego:
             return self.jugadores[Color.Blancas].nombre
         elif self.tablero.tupla["fichas_negras_en_punta_opuesta"] == 10:
             return self.jugadores[Color.Negras].nombre
-        else 
+        else :
             return None
 
     #Jugar una partida entre los jugadores que son atributos de la clase Juego
