@@ -4,16 +4,15 @@ from Constantes import *
 class Juego:
 
     #Inicializa el tablero con los jugadores ingresados
+    #El "jugador1" siempre es el que mueve primero
     def __init__(self, jugador1, jugador2):
         self.tablero = Tablero()
         self.jugadores = { Color.Blancas : jugador1,
                            Color.Negras  : jugador2 }
 
-    #Aplica la jugada ingresada, modificando el tablero actual
-    #"ficha" y "movimiento" son tuplas de enteros con las posiciones de la ficha y hacia
-    #dónde se mueve, respectivamente
+    #Aplica la mejor jugada del jugador con color "color", modificando el tablero actual
     #"color" es el string "blancas" o "negras"
-    def __jugada(self, ficha, movimiento, color):
+    def __jugada(self, color):
         jugador = self.jugadores[color]
         return jugador.mejor_jugada(self.tablero)
 
@@ -34,3 +33,11 @@ class Juego:
             return Color.Negras
         else 
             return None
+
+    #Jugar una partida entre los jugadores que son atributos de la clase Juego
+    #Devuelve el color del ganador
+    def jugar(self):
+        while not self.__hay_ganador():
+            self.__jugada(Color.Blancas)
+            self.__jugada(Color.Negras)
+        return self.__ganador()
