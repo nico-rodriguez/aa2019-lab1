@@ -6,9 +6,10 @@ from Constantes import *
 class Jugador(object):
 
 	#"color" es el string "blancas" o "negras"
-	def __init__(self, color):
+	def __init__(self, color, nombre):
 		super(Jugador, self).__init__()
 		self.color = color
+		self.nombre = nombre
 	
 	# Devuelve el tablero que resulta de efectuar la mejor jugada según la estrategia del jugador	
 	@abstractmethod
@@ -17,8 +18,8 @@ class Jugador(object):
 
 class Aleatorio(Jugador):
 
-	def __init__(self):
-		super(Aleatorio, self).__init__()
+	def __init__(self, color, nombre):
+		super(Aleatorio, self, color, nombre).__init__()
 	
 	def mejor_jugada(self, tablero):
 		fichas = tablero.negras if self.color = Color.Negras else tablero.blancas
@@ -30,8 +31,8 @@ class Aleatorio(Jugador):
 
 class AI(Jugador):
 
-	def __init__(self, pesos):
-		super(AI, self).__init__()
+	def __init__(self, color, nombre, pesos):
+		super(AI, self, color, nombre).__init__()
 		self.pesos = pesos
 	
 	def mejor_jugada(self, tablero):

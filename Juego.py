@@ -28,9 +28,9 @@ class Juego:
     #Retorna el ganador solo en caso que haya (hay_ganador == true) sino retorna None
     def __ganador(self):
         if self.tablero.tupla.["fichas_blancas_en_punta_opuesta"] == 10:
-            return Color.Blancas
+            return self.jugadores[Color.Blancas].nombre
         elif self.tablero.tupla.["fichas_negras_en_punta_opuesta"] == 10:
-            return Color.Negras
+            return self.jugadores[Color.Negras].nombre
         else 
             return None
 
