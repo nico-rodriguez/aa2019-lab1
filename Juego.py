@@ -3,11 +3,10 @@ import * from Jugadores
 class Juego:
 
     #Inicializa el tablero con los jugadores ingresados
-    def comenzar_juego(jugador1, jugador2):
+    def __init__(self, jugador1, jugador2):
         self.tablero = Tablero()
         self.jugadores = { "blancas" : jugador1,
                            "negras"  : jugador2 }
-        return self.tablero
 
     #Aplica la jugada ingresada, modificando el ablero actual
     def jugada(ficha, movimiento, color):
