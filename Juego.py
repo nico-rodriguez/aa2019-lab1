@@ -1,4 +1,5 @@
-import * from Jugadores
+from Jugadores import *
+from Constantes import *
 
 class Juego:
 
