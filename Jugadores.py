@@ -22,7 +22,7 @@ class Aleatorio(Jugador):
 		super(Aleatorio, self, color, nombre).__init__()
 	
 	def mejor_jugada(self, tablero):
-		fichas = tablero.negras if self.color = Color.Negras else tablero.blancas
+		fichas = tablero.negras if self.color == Color.Negras else tablero.blancas
 		while True:
 			mover_ficha = random.choice(fichas)
 			movimientos = tablero.posibles_movimientos(mover_ficha)
