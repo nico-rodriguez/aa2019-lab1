@@ -9,7 +9,7 @@ class Juego:
         self.jugadores = { "blancas" : jugador1,
                            "negras"  : jugador2 }
 
-    #Aplica la jugada ingresada, modificando el ablero actual
+    #Aplica la jugada ingresada, modificando el tablero actual
     def __jugada(self, ficha, movimiento, color):
         tipo_jugador = jugadores[color.value]
         jugada = mejor_jugada_para_jugador(tipo_jugador)
@@ -33,4 +33,3 @@ class Juego:
             return Color.Negras
         else 
             return NULL
-        
