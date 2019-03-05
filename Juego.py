@@ -6,8 +6,8 @@ class Juego:
     #Inicializa el tablero con los jugadores ingresados
     def __init__(self, jugador1, jugador2):
         self.tablero = Tablero()
-        self.jugadores = { "blancas" : jugador1,
-                           "negras"  : jugador2 }
+        self.jugadores = { Color.Blancas : jugador1,
+                           Color.Negras  : jugador2 }
 
     #Aplica la jugada ingresada, modificando el tablero actual
     #"ficha" y "movimiento" son tuplas de enteros con las posiciones de la ficha y hacia
