@@ -42,5 +42,5 @@ class Juego:
             self.__jugada(Color.Blancas)
             self.__jugada(Color.Negras)
             turnos += 1
-            print(f"Turnos = {turnos}")
+            print("Turnos = {turnos}".format(turnos=turnos))
         return self.__ganador()

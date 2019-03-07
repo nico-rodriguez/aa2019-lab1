@@ -185,10 +185,10 @@ class Tablero:
 					print("*", end="")
 			print()
 
-		print(f"Casillas dentro del rectángulo: {casillas_en_rectangulo}")
-		print(f"Casillas en instancia de Tablero: {len(punta_negra) + len(punta_blanca) + len(parte_media)}")
-		print(f"Fichas blancas: {len(tablero.blancas)}")
-		print(f"Fichas negras: {len(tablero.negras)}")
+		print("Casillas dentro del rectángulo: {casillas_en_rectangulo}".format(casillas_en_rectangulo=casillas_en_rectangulo))
+		print("Casillas en instancia de Tablero: {len(punta_negra) + len(punta_blanca) + len(parte_media)}")
+		print("Fichas blancas: {len(tablero.blancas)}")
+		print("Fichas negras: {len(tablero.negras)}")
 
 	def imprimir_tablero_con_fichas(self):
 
@@ -214,20 +214,20 @@ if __name__ == '__main__':
 	tablero.imprimir_tablero()
 
 	print("Posiciones adyacentes")
-	print(f"(-8,0): {tablero.posiciones_adyacentes((-8,0))}")
+	print("(-8,0): {pos}".format(pos=tablero.posiciones_adyacentes((-8,0))))
 	assert tablero.posiciones_adyacentes((-8,0)) == ([], [(-7, -1), (-7, 1)])
-	print(f"(-6,0): {tablero.posiciones_adyacentes((-6,0))}")
+	print("(-6,0): {pos}".format(pos=tablero.posiciones_adyacentes((-6,0))))
 	assert tablero.posiciones_adyacentes((-6,0)) == ([], [(-5, -1), (-5, 1), (-6, -2), (-6, 2), (-7, -1), (-7, 1)])
-	print(f"(-5,1): {tablero.posiciones_adyacentes((-5,1))}")
+	print("(-5,1): {pos}".format(pos=tablero.posiciones_adyacentes((-5,1))))
 	assert tablero.posiciones_adyacentes((-5,1)) == ([(-4, 0), (-4, 2)], [(-5, -1), (-5, 3), (-6, 0), (-6, 2)])
 
 	print("Posibles movimientos")
 	tablero.imprimir_tablero_con_fichas()
-	print(f"(-8,0) => {tablero.posibles_movimientos((-8,0))}")
+	print("(-8,0) => {pos}".format(pos=tablero.posibles_movimientos((-8,0))))
 	assert tablero.posibles_movimientos((-8,0)) == set()
-	print(f"(-6,0) => {tablero.posibles_movimientos((-6,0))}")
+	print("(-6,0) => {pos}".format(pos=tablero.posibles_movimientos((-6,0))))
 	assert tablero.posibles_movimientos((-6,0)) == {(-4, 2), (-4, -2)}
-	print(f"(-5,1) => {tablero.posibles_movimientos((-5,1))}")
+	print("(-5,1) => {pos}".format(pos=tablero.posibles_movimientos((-5,1))))
 	assert tablero.posibles_movimientos((-5,1)) == {(-4, 2), (-4, 0)}
 
 	# Testear posibles_movimientos cuando hay varios saltos
@@ -236,10 +236,10 @@ if __name__ == '__main__':
 	tablero.blancas.append((-2,0))
 	print("Agregada blanca en (-2,0)")
 	tablero.imprimir_tablero_con_fichas()
-	print(f"(-5,1) => {tablero.posibles_movimientos((-5,1))}")
+	print("(-5,1) => {pos}".format(pos=tablero.posibles_movimientos((-5,1))))
 	assert tablero.posibles_movimientos((-5,1)) == {(-3, -1), (-4, 2), (-1, 1)}
 	tablero.blancas.remove((-5,1))
 	print("Quitada blanca en (-5,1)")
 	tablero.imprimir_tablero_con_fichas()
-	print(f"(-7,-1) => {tablero.posibles_movimientos((-7,-1))}")
+	print("(-7,-1) => {pos}".format(pos=tablero.posibles_movimientos((-7,-1))))
 	assert tablero.posibles_movimientos((-7,-1)) == {(-3, -1), (-1, 1), (-5, 1)}

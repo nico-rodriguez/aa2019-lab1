@@ -47,4 +47,4 @@ if __name__ == '__main__':
         ganador = juego.jugar()
         #Para debugging
         print(ganador)
-        print(f"Victorias = {victorias}")
+        print("Victorias = {victorias}".format(victorias=victorias))
