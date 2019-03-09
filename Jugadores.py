@@ -26,6 +26,11 @@ class Aleatorio(Jugador):
 		while True:
 			mover_ficha = random.choice(fichas)
 			movimientos = tablero.posibles_movimientos(mover_ficha)
+			# filtrar movimientos que llevan hacia atrás
+			mover_ficha_x,_ = mover_ficha
+			for mov_x,mov_y in movimientos:
+				if mov_x < mover_ficha_x:
+					movimientos.remove((mov_x,mov_y))
 			if movimientos:
 				movimiento = random.choice(movimientos)
 				tablero.actualizar_tablero(mover_ficha, movimiento, self.color)
