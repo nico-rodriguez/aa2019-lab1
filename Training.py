@@ -40,10 +40,10 @@ if __name__ == '__main__':
 
     jugador1 = Aleatorio(Color.Blancas, "Aleatorio") if jugador1_str == "Aleatorio" else AI(Color.Blancas, "AI1", None)
     jugador2 = Aleatorio(Color.Negras, "Aleatorio") if jugador1_str == "Aleatorio" else AI(Color.Negras, "AI1", None)
-    juego = Juego(jugador1, jugador2)
     victorias = 0
 
     for i in range(num_partidas):
+        juego = Juego(jugador1, jugador2)
         ganador = juego.jugar()
         #Para debugging
         print(ganador)

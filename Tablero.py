@@ -198,9 +198,9 @@ class Tablero:
 		for i in range(altura, -altura-1, -1):
 			for j in range(ancho, -ancho-1, -1):
 				if (i,j) in punta_negra or (i,j) in punta_blanca or (i,j) in parte_media:
-					if (i,j) in tablero.blancas:
+					if (i,j) in self.blancas:
 						print("b", end="")
-					elif (i,j) in tablero.negras:
+					elif (i,j) in self.negras:
 						print("n", end="")
 					else:
 						print("0", end="")
