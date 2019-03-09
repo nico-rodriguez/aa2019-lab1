@@ -224,11 +224,11 @@ if __name__ == '__main__':
 	print("Posibles movimientos")
 	tablero.imprimir_tablero_con_fichas()
 	print("(-8,0) => {pos}".format(pos=tablero.posibles_movimientos((-8,0))))
-	assert tablero.posibles_movimientos((-8,0)) == set()
+	assert tablero.posibles_movimientos((-8,0)) == []
 	print("(-6,0) => {pos}".format(pos=tablero.posibles_movimientos((-6,0))))
-	assert tablero.posibles_movimientos((-6,0)) == {(-4, 2), (-4, -2)}
+	assert tablero.posibles_movimientos((-6,0)) == [(-4, 2), (-4, -2)]
 	print("(-5,1) => {pos}".format(pos=tablero.posibles_movimientos((-5,1))))
-	assert tablero.posibles_movimientos((-5,1)) == {(-4, 2), (-4, 0)}
+	assert tablero.posibles_movimientos((-5,1)) == [(-4, 2), (-4, 0)]
 
 	# Testear posibles_movimientos cuando hay varios saltos
 	tablero.negras.append((-4,0))
@@ -237,9 +237,9 @@ if __name__ == '__main__':
 	print("Agregada blanca en (-2,0)")
 	tablero.imprimir_tablero_con_fichas()
 	print("(-5,1) => {pos}".format(pos=tablero.posibles_movimientos((-5,1))))
-	assert tablero.posibles_movimientos((-5,1)) == {(-3, -1), (-4, 2), (-1, 1)}
+	assert tablero.posibles_movimientos((-5,1)) == [(-3, -1), (-4, 2), (-1, 1)]
 	tablero.blancas.remove((-5,1))
 	print("Quitada blanca en (-5,1)")
 	tablero.imprimir_tablero_con_fichas()
 	print("(-7,-1) => {pos}".format(pos=tablero.posibles_movimientos((-7,-1))))
-	assert tablero.posibles_movimientos((-7,-1)) == {(-3, -1), (-1, 1), (-5, 1)}
+	assert tablero.posibles_movimientos((-7,-1)) == [(-3, -1), (-1, 1), (-5, 1)]

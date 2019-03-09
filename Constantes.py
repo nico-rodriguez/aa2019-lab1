@@ -17,7 +17,7 @@ for i in range(5, 9, 1):
 
 # Parte central superior
 for i in range(1, 5, 1):
-	for j in range(-(8+i), 9+i, 2):
+	for j in range(-8+i, 9-i, 2):
 		parte_media.append((i,j))
 
 # Fila horizontal central
@@ -26,7 +26,7 @@ for j in range(-8, 9, 2):
 
 # Parte central inferior
 for i in range(-4, 0, 1):
-	for j in range(-8+i, 8+(-i)+1, 2):
+	for j in range(-(8+i), 9+i, 2):
 		parte_media.append((i,j))
 
 # Punta inferior de la estrella
