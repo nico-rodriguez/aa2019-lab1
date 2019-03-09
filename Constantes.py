@@ -43,3 +43,7 @@ direcciones = [
 			(-1,-1),	# suroeste
 			(-1,1)		# sureste
 		]
+
+# Valores extremos de la función objetivo
+valoracion_maxima = 1
+valoracion_minima = -1

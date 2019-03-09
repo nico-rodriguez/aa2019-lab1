@@ -1,5 +1,6 @@
 from Constantes import *
 from enum import Enum
+import copy
 
 '''
 La clase tablero contiene las posiciones del tablero, las posiciones de las
@@ -37,7 +38,28 @@ class Tablero:
 			"posibles_movimientos_blancas" : self.posibles_movimientos_jugador(Color.Blancas),
 			"posibles_movimientos_negras" : self.posibles_movimientos_jugador(Color.Negras),
 		}
+        
+    # Retorna una copia (deep copy) del tablero actual
+    def copy(self):
+        tablero = Tablero()
+        tablero.blancas = copy.deepcopy(self.blancas)
+        tablero.negras = copy.deepcopy(self.negras)
+        tablero.tupla = copy.deepcopy(self.tupla)
+        return tablero
 
+    # Devuelve los elementos que representan el tablero como una tupla.
+    # El orden es el que espera la función de valoración del jugador AI.
+    # El orden es:
+    #("distancia_blancas", "distancia_negras",
+    # "fichas_blancas_en_punta_opuesta", "fichas_negras_en_punta_opuesta",
+    # "posiciones_disminuyen_distancia_blancas", "posiciones_disminuyen_distancia_negras",
+    # "posibles_movimientos_blancas", "posibles_movimientos_negras")
+    def obtener_tupla(self):
+        return [self.tupla["distancia_blancas"], self.tupla["distancia_negras"],
+                self.tupla["fichas_blancas_en_punta_opuesta"], self.tupla["fichas_negras_en_punta_opuesta"],
+                self.tupla["posiciones_disminuyen_distancia_blancas"], self.tupla["posiciones_disminuyen_distancia_negras"],
+                self.tupla["posibles_movimientos_blancas"], self.tupla["posibles_movimientos_negras"]]
+    
 	# tablero_actual es una instancia de Tablero
 	# ficha es una tupla con la posición de la ficha a mover
 	# movimiento es una tupla con la nueva posición de la ficha
