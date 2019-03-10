@@ -38,8 +38,8 @@ if __name__ == '__main__':
         print("***El número de partidas debe ser al menos de 100***")
         print(uso)
 
-    jugador1 = Aleatorio(Color.Blancas, "Aleatorio") if jugador1_str == "Aleatorio" else AI(Color.Blancas, "AI1", None, True, 0.1, 0.9, 0.95)
-    jugador2 = Aleatorio(Color.Negras, "Aleatorio") if jugador1_str == "Aleatorio" else AI(Color.Negras, "AI1", None, True, 0.1, 0.9, 0.95)
+    jugador1 = Aleatorio(Color.Blancas, "Aleatorio") if jugador1_str == "Aleatorio" else AI(Color.Blancas, "AI1", None, True, 0.1)
+    jugador2 = Aleatorio(Color.Negras, "Aleatorio") if jugador1_str == "Aleatorio" else AI(Color.Negras, "AI1", None, True, 0.1)
     victorias = 0
 
     for i in range(num_partidas):
