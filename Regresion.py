@@ -83,8 +83,13 @@ class Regresion(object):
 			except:
 				return "Error excribiendo archivo de pesos finales"
 		except:
-			return "Error abriendo archivo entrenamiento"
+			print("Error abriendo archivo entrenamiento")
 
 if __name__ == '__main__':
+	'''
 	reg = Regresion("entrenamiento.txt", "pesos.txt", 0.1)
 	reg.ajuste_minimos_cuadrados()
+	'''
+	archivo_entrenamiento = open('entrenamiento.txt, 'r')
+	lista_tuplas_sin_procesar = reversed(list(archivo_entrenamiento))
+	archivo_entrenamiento.close()
