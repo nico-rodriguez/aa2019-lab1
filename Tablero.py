@@ -39,13 +39,13 @@ class Tablero:
 			"posibles_movimientos_negras" : self.posibles_movimientos_jugador(Color.Negras),
 		}
         
-    # Retorna una copia (deep copy) del tablero actual
-    def copy(self):
-        tablero = Tablero()
-        tablero.blancas = copy.deepcopy(self.blancas)
-        tablero.negras = copy.deepcopy(self.negras)
-        tablero.tupla = copy.deepcopy(self.tupla)
-        return tablero
+	# Retorna una copia (deep copy) del tablero actual
+	def copy(self):
+		tablero = Tablero()
+		tablero.blancas = copy.deepcopy(self.blancas)
+		tablero.negras = copy.deepcopy(self.negras)
+		tablero.tupla = copy.deepcopy(self.tupla)
+		return tablero
 
     # Devuelve los elementos que representan el tablero como una tupla.
     # El orden es el que espera la función de valoración del jugador AI.
@@ -54,8 +54,8 @@ class Tablero:
     # "fichas_blancas_en_punta_opuesta", "fichas_negras_en_punta_opuesta",
     # "posiciones_disminuyen_distancia_blancas", "posiciones_disminuyen_distancia_negras",
     # "posibles_movimientos_blancas", "posibles_movimientos_negras")
-    def obtener_tupla(self):
-        return [self.tupla["distancia_blancas"], self.tupla["distancia_negras"],
+	def obtener_tupla(self):
+		return [self.tupla["distancia_blancas"], self.tupla["distancia_negras"],
                 self.tupla["fichas_blancas_en_punta_opuesta"], self.tupla["fichas_negras_en_punta_opuesta"],
                 self.tupla["posiciones_disminuyen_distancia_blancas"], self.tupla["posiciones_disminuyen_distancia_negras"],
                 self.tupla["posibles_movimientos_blancas"], self.tupla["posibles_movimientos_negras"]]
@@ -192,17 +192,17 @@ class Tablero:
 		return contador
     
     #Retorna true si hay un ganador para el tablero actual
-    def hay_ganador(self):
-        return self.tupla["fichas_blancas_en_punta_opuesta"] == 10 or self.tupla["fichas_negras_en_punta_opuesta"] == 10
+	def hay_ganador(self):
+		return self.tupla["fichas_blancas_en_punta_opuesta"] == 10 or self.tupla["fichas_negras_en_punta_opuesta"] == 10
     
     #Retorna el ganador solo en caso que haya (hay_ganador == true) sino retorna None
-    def ganador(self):
-        if self.tupla["fichas_blancas_en_punta_opuesta"] == 10:
-            return Color.Blancas
-        elif self.tupla["fichas_negras_en_punta_opuesta"] == 10:
-            return Color.Negras
-        else:
-            return None
+	def ganador(self):
+		if self.tupla["fichas_blancas_en_punta_opuesta"] == 10:
+			return Color.Blancas
+		elif self.tupla["fichas_negras_en_punta_opuesta"] == 10:
+			return Color.Negras
+		else:
+			return None
 
 	# Para debugging
 	def imprimir_tablero(self):
