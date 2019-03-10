@@ -26,32 +26,34 @@ class Regresion(object):
 
 	# Parsea el archivo con los pesos y los guarda como atributos de la clase
 	def __parsear_archivo_pesos(self, archivo_pesos):
-	    try:
-	        archivo_pesos = open(archivo_pesos,"r")
-	    except IOError:
-	        archivo_pesos.close()
-	        return "Hubo un error al intentar obtener el archivo"
-	    pesos = []
-	    while(linea = archivo_pesos.readline() && (not linea is None)):
-	        pesos.append(linea.split())
-	    archivo_pesos.close()
-	    return pesos
+		try:
+			archivo_pesos = open(archivo_pesos, "r")
+		except IOError:
+			archivo_pesos.close()
+			return "Hubo un error al intentar obtener el archivo"
+		pesos = []
+		linea = archivo_pesos.readline().split()
+		for peso in linea:
+			pesos.append(float(peso))
+		print(linea)
+		archivo_pesos.close()
+		return pesos
 	
 	# Recibe la tupla que representa al tablero
-    # Retorna la suma ponderada de los elementos de la tupla
-    # El orden de los elementos de la tupla es el especificado en Tablero.py
-    def valoracion(self, tupla):
-        gane = tupla[2] == 10 if self.color == Color.Blancas else tupla[3] == 10
-        perdi = tupla[2] == 10 if self.color == Color.Negras else tupla[3] == 10
-        if gane:
-            return 1
-        elif perdi:
-            return -1
-        else:
-            val = self.pesos[0]
-            for i in range(len(tupla)):
-                val += self.pesos[i+1]*tupla[i]
-            return val
+	# Retorna la suma ponderada de los elementos de la tupla
+	# El orden de los elementos de la tupla es el especificado en Tablero.py
+	def valoracion(self, tupla):
+		gane = tupla[2] == 10 if self.color == Color.Blancas else tupla[3] == 10
+		perdi = tupla[2] == 10 if self.color == Color.Negras else tupla[3] == 10
+		if gane:
+			return 1
+		elif perdi:
+			return -1
+		else:
+			val = self.pesos[0]
+			for i in range(len(tupla)):
+				val += self.pesos[i+1]*tupla[i]
+			return val
 
 	# Parsea el archvio con los valores de entrenamiento y realiza el ajuste de mínimos cuadrados
 	def ajuste_minimos_cuadrados(self):
@@ -59,11 +61,11 @@ class Regresion(object):
 			archivo_entrenamiento = open(self.archivo_entrenamiento, "r")
 			lista_tuplas_sin_procesar = reversed(list(archivo_entrenamiento))
 			archivo_entrenamiento.close()
-			for (tupla_sin_procesar in lista_tuplas_sin_procesar) :
+			for tupla_sin_procesar in lista_tuplas_sin_procesar:
 				tupla = []
 				tupla = tupla_sin_procesar.split()
 				v_train = float(tupla[8])
-				for (idx, valor in tupla[0:8]):
+				for idx, valor in tupla[0:8]:
 					tupla[idx] = int(valor)
 				v_tupla = valoracion(tupla[0:8])
 				error_valoracion = (v_train - v_tupla)
@@ -73,16 +75,16 @@ class Regresion(object):
 				tupla_sin_procesar = readline(tuplas_archivo)
 			try:
 				archivo_pesos_finales = open("pesos_finales.txt", "w")
-				archivo_pesos_finales.close()
 				string_pesos = ""
-				for (peso in pesos)
+				for peso in pesos:
 					string_pesos += peso + " "
 				archivo_pesos_finales.write(string_pesos)
+				archivo_pesos_finales.close()
 			except:
 				return "Error excribiendo archivo de pesos finales"
 		except:
 			return "Error abriendo archivo entrenamiento"
 
 if __name__ == '__main__':
-	Regresion("entrenamiento.txt", "pesos.txt", 0.1)
-	Regresion.ajuste_minimos_cuadrados()
+	reg = Regresion("entrenamiento.txt", "pesos.txt", 0.1)
+	reg.ajuste_minimos_cuadrados()
