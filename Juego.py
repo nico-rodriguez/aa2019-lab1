@@ -38,10 +38,10 @@ class Juego:
     #Devuelve el color del ganador
     def jugar(self):
         turnos = 0
-        print("entro a jugar")
         while not self.__hay_ganador():
             self.__jugada(Color.Blancas)
-            self.__jugada(Color.Negras)
+            if not self.__hay_ganador():
+                self.__jugada(Color.Negras)
             if turnos % 1000 == 0:
                 self.tablero.imprimir_tablero_con_fichas()
             turnos += 1

@@ -190,6 +190,19 @@ class Tablero:
 				if movimiento_x <= pos_x:
 					contador -= 1
 		return contador
+    
+    #Retorna true si hay un ganador para el tablero actual
+    def hay_ganador(self):
+        return self.tupla["fichas_blancas_en_punta_opuesta"] == 10 or self.tupla["fichas_negras_en_punta_opuesta"] == 10
+    
+    #Retorna el ganador solo en caso que haya (hay_ganador == true) sino retorna None
+    def ganador(self):
+        if self.tupla["fichas_blancas_en_punta_opuesta"] == 10:
+            return Color.Blancas
+        elif self.tupla["fichas_negras_en_punta_opuesta"] == 10:
+            return Color.Negras
+        else:
+            return None
 
 	# Para debugging
 	def imprimir_tablero(self):
