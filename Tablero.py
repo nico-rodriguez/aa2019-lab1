@@ -103,7 +103,17 @@ class Tablero:
 	# Dadas las coordenadas cartesianas de una posición (en una tupla) devuelve True sii la posición pertenece al tablero
 	def pertenece_al_tablero(self, pos):
 
-		return pos in punta_negra or pos in punta_blanca or pos in parte_media
+		pos_x,_ = pos
+		if pos_x <= 8 and pos_x > 4:
+			return pos in punta_negra
+		elif pos_x <= 4 and pos_x > 0:
+			return pos in parte_media_superior
+		elif pos_x == 0:
+			return pos in parte_media_central
+		elif pos_x < 0 and pos_x >= -4:
+			return pos in parte_media_inferior
+		else:
+			return pos in punta_blanca
 
 	# Dadas las coordenadas cartesianas de una posición (en una tupla) devuelve True sii la posición está ocupada por una ficha
 	# No chequea si la posición es factible (si pertence al tablero)
@@ -213,7 +223,7 @@ class Tablero:
 
 		for i in range(altura, -altura-1, -1):
 			for j in range(ancho, -ancho-1, -1):
-				if (i,j) in punta_negra or (i,j) in punta_blanca or (i,j) in parte_media:
+				if self.pertenece_al_tablero((i,j)):
 					print("0", end="")
 					casillas_en_rectangulo += 1
 				else:
@@ -221,7 +231,7 @@ class Tablero:
 			print()
 
 		print("Casillas dentro del rectángulo: {casillas_en_rectangulo}".format(casillas_en_rectangulo=casillas_en_rectangulo))
-		print("Casillas en instancia de Tablero: {len(punta_negra) + len(punta_blanca) + len(parte_media)}")
+		print("Casillas en instancia de Tablero: {len(punta_negra) + len(punta_blanca) + len(parte_media_superior) + len(parte_media_inferior) + len(parte_media_central)}")
 		print("Fichas blancas: {len(tablero.blancas)}")
 		print("Fichas negras: {len(tablero.negras)}")
 
@@ -232,7 +242,7 @@ class Tablero:
 
 		for i in range(altura, -altura-1, -1):
 			for j in range(ancho, -ancho-1, -1):
-				if (i,j) in punta_negra or (i,j) in punta_blanca or (i,j) in parte_media:
+				if self.pertenece_al_tablero((i,j)):
 					if (i,j) in self.blancas:
 						print("b", end="")
 					elif (i,j) in self.negras:
