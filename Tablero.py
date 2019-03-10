@@ -140,18 +140,6 @@ class Tablero:
 
 		return (adyacentes_libres, adyacentes_ocupadas)
 
-	# Dadas las coordenadas cartesianas de una posición (en una tupla) devuelve una lista con las posiciones adyacentes libres
-	def posiciones_adyacentes_libres(self, pos):
-
-		adyacentes_libres, _ = self.posiciones_adyacentes(pos)
-		return adyacentes_libres
-
-	# Dadas las coordenadas cartesianas de una posición (en una tupla) devuelve una lista con las posiciones adyacentes ocupadas
-	def posiciones_adyacentes_ocupadas(self, pos):
-
-		_, adyacentes_ocupadas = self.posiciones_adyacentes(pos)
-		return adyacentes_ocupadas
-
 	# Dada la posición de una ficha, devuelve una lista con posibles nuevas posiciones para la misma
 	# de acuerdo con las reglas del juego
 	def posibles_movimientos(self, pos):
