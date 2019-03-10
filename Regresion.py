@@ -25,20 +25,25 @@ class Regresion(object):
 
 	# Parsea el archivo con los pesos y los guarda como atributos de la clase
 	def __parsear_archivo_pesos(self, archivo_pesos):
-	    try:
-	        archivo_pesos = open(archivo_pesos,"r")
-	    except IOError:
-	        archivo_pesos.close()
-	        return "Hubo un error al intentar obtener el archivo"
-	    pesos = []
-	    while(linea = archivo_pesos.readline() && (not linea is None)):
-	        pesos.append(linea.split())
-	    archivo_pesos.close()
-	    return pesos
-
+		try:
+			archivo_pesos = open(archivo_pesos, "r")
+		except IOError:
+			archivo_pesos.close()
+			return "Hubo un error al intentar obtener el archivo"
+		pesos = []
+		linea = archivo_pesos.readline().split()
+		for peso in linea:
+			pesos.append(float(peso))
+		print(linea)
+		archivo_pesos.close()
+		return pesos
+'''
 	# Parsea el archvio con los valores de entrenamiento y realiza el ajuste de mínimos cuadrados
 	def ajuste_minimos_cuadrados(self):
         error_valoracion = (v_train - v_tupla)
         self.pesos[0] = self.pesos[0] + self.factor_aprendizaje * error_valoracion
         for i in range(len(tupla)):
             self.pesos[i+1] = self.pesos[i+1] + self.factor_aprendizaje * error_valoracion * tupla[i]
+'''
+if __name__ == '__main__':
+	pass
