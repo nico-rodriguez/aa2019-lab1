@@ -2,6 +2,7 @@ from abc import abstractmethod
 import random
 from Tablero import *
 from Constantes import *
+from ManejadorArchivos import *
 
 class Jugador(object):
 
@@ -41,6 +42,8 @@ class Aleatorio(Jugador):
                 return tablero
 
 class AI(Jugador):
+    
+    weights_file_path = "pesos.txt"
 
     def __init__(self, color, nombre, pesos, entrenando, factor_aprendizaje):
         super(AI, self).__init__(color, nombre)
@@ -55,6 +58,7 @@ class AI(Jugador):
         self.factor_propagacion = factor_propagacion
         self.tasa_decaimiento = tasa_decaimiento
         self.color_oponente = Color.Negras if color == Color.Blancas else Color.Blancas
+        self.manejadorArchivos = ManejadorArchivos()
         
     # Recibe la tupla que representa al tablero
     # Retorna la suma ponderada de los elementos de la tupla
@@ -108,5 +112,36 @@ class AI(Jugador):
         self.pesos[0] = self.pesos[0] + self.factor_aprendizaje * error_valoracion
         for i in range(len(tupla)):
             self.pesos[i+1] = self.pesos[i+1] + self.factor_aprendizaje * error_valoracion * tupla[i]
-
     
+    def guardar_tupla(self, tupla):
+        pesos_a_guardar = tupla.copy().append(valoracion(tupla))
+        guardar_tupla(weights_file_path, [tupla])
+
+    def cargar_pesos(file_path):
+        try:
+            archivo_pesos=open(file_path,"r") 
+        except IOError: 
+            archivo_pesos.close()
+            return "Hubo un error al intentar abrir el archivo"
+        pesos = []
+        linea = archivo_pesos.readline()
+        while(linea != ""):
+            pesos.append(map(toFloat,linea.split()))
+            linea = archivo_pesos.readline()
+        archivo_pesos.close()
+        return pesos
+    
+    def guardar_tupla(file_path, tupla):
+        try:
+            archivo_entrenamiento=open(file_path,"a+")
+        except IOError: 
+            archivo_entrenamiento.close()
+            return "Hubo un error al intentar abrir/escribir el archivo"
+        for peso in pesos:
+            linea_nueva = ""
+            for wi in peso:
+                linea_nueva += (str(wi) + " ")
+            linea_nueva = linea_nueva[:-1]
+            archivo_entrenamiento.write(linea_nueva + "\n")
+        archivo_entrenamiento.close()
+        return pesos
