@@ -34,9 +34,6 @@ if __name__ == '__main__':
     if not(jugador1_str in jugadores and jugador2_str in jugadores):
         print("***Valores incorrectos para los jugadores***")
         print(uso)
-    if num_partidas < 100:
-        print("***El número de partidas debe ser al menos de 100***")
-        print(uso)
 
     jugador1 = Aleatorio(Color.Blancas, "Aleatorio") if jugador1_str == "Aleatorio" else AI(Color.Blancas, "AI1", None, True, 0.1)
     jugador2 = Aleatorio(Color.Negras, "Aleatorio") if jugador1_str == "Aleatorio" else AI(Color.Negras, "AI1", None, True, 0.1)

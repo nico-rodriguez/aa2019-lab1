@@ -2,7 +2,6 @@ from abc import abstractmethod
 import random
 from Tablero import *
 from Constantes import *
-from ManejadorArchivos import *
 
 class Jugador(object):
 
@@ -56,7 +55,6 @@ class AI(Jugador):
         self.entrenando = entrenando
         self.factor_aprendizaje = factor_aprendizaje
         self.color_oponente = Color.Negras if color == Color.Blancas else Color.Blancas
-        self.manejadorArchivos = ManejadorArchivos()
         
     # Recibe la tupla que representa al tablero
     # Retorna la suma ponderada de los elementos de la tupla
@@ -85,14 +83,11 @@ class AI(Jugador):
                 nuevo_posible_tablero = tablero.copy()
                 nuevo_posible_tablero.actualizar_tablero(ficha, movimiento, self.color)
                 if nuevo_posible_tablero.hay_ganador():
-                    # Como es nuestro turno de mover, solo podemos ganar nosotros. De todas formas
-                    # se chequea si en este tablero el jugador gana
-                    if nuevo_posible_tablero.ganador() == self.color:
-                        tablero.actualizar_tablero(ficha_maxima, movimiento_maximo, self.color)
-                        if entrenando:
-                            # TODO: guardar los pesos y la valoración de entrenamiento (v_train)
-                            actualizar_pesos(self.valoracion(tablero.obtener_tupla()), valoracion_tablero, tablero.obtener_tupla())
-                        return tablero
+                    tablero.actualizar_tablero(ficha_maxima, movimiento_maximo, self.color)
+                    if self.entrenando:
+                        # TODO: guardar los pesos y la valoración de entrenamiento (v_train)
+                        self.actualizar_pesos(self.valoracion(tablero.obtener_tupla()), valoracion_tablero, tablero.obtener_tupla())
+                    return tablero
                 else:
                     valoracion = self.valoracion(nuevo_posible_tablero.obtener_tupla())
                     if valoracion_maxima is None or valoracion > valoracion_maxima:

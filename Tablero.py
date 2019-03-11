@@ -67,17 +67,23 @@ class Tablero:
 		lista = self.negras if color == Color.Negras else self.blancas
 		lista.remove(ficha)
 		lista.append(movimiento)
-		self.actualizar_tupla(color)
+		self.actualizar_tupla(color, ficha, movimiento)
 
-	def actualizar_tupla(self, color):
+	def actualizar_tupla(self, color, ficha, movimiento):
 		if color == Color.Blancas:
 			self.tupla["distancia_blancas"] = self.distancia(Color.Blancas)
-			self.tupla["fichas_blancas_en_punta_opuesta"] = self.fichas_en_punta_opuesta(Color.Blancas)
+			if not(ficha in punta_negra) and movimiento in punta_negra:
+				self.tupla["fichas_blancas_en_punta_opuesta"] += 1
+			elif ficha in punta_negra and not(movimiento in punta_negra):
+				self.tupla["fichas_blancas_en_punta_opuesta"] -= 1
 			self.tupla["posiciones_disminuyen_distancia_blancas"] = self.posiciones_disminuyen_distancia_jugador(Color.Blancas)
 			self.tupla["posibles_movimientos_blancas"] = self.posibles_movimientos_jugador(Color.Blancas)
 		else:
 			self.tupla["distancia_negras"] = self.distancia(Color.Negras)
-			self.tupla["fichas_negras_en_punta_opuesta"] = self.fichas_en_punta_opuesta(Color.Negras)
+			if not(ficha in punta_blanca) and movimiento in punta_blanca:
+				self.tupla["fichas_negras_en_punta_opuesta"] += 1
+			elif ficha in punta_blanca and not(movimiento in punta_blanca):
+				self.tupla["fichas_negras_en_punta_opuesta"] -= 1
 			self.tupla["posiciones_disminuyen_distancia_negras"] = self.posiciones_disminuyen_distancia_jugador(Color.Negras)
 			self.tupla["posibles_movimientos_negras"] = self.posibles_movimientos_jugador(Color.Negras)
 
