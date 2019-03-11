@@ -55,8 +55,6 @@ class AI(Jugador):
             self.pesos = pesos
         self.entrenando = entrenando
         self.factor_aprendizaje = factor_aprendizaje
-        self.factor_propagacion = factor_propagacion
-        self.tasa_decaimiento = tasa_decaimiento
         self.color_oponente = Color.Negras if color == Color.Blancas else Color.Blancas
         self.manejadorArchivos = ManejadorArchivos()
         
@@ -145,3 +143,31 @@ class AI(Jugador):
             archivo_entrenamiento.write(linea_nueva + "\n")
         archivo_entrenamiento.close()
         return pesos
+
+	# Parsea el archvio con los valores de entrenamiento y realiza el ajuste de mínimos cuadrados
+    def ajuste_minimos_cuadrados(self, archivo_entrenamiento):
+        archivo_entrenamiento = open(archivo_entrenamiento, 'r')
+        lista_tuplas_sin_procesar = reversed(list(archivo_entrenamiento))
+        archivo_entrenamiento.close()
+        for tupla_sin_procesar in lista_tuplas_sin_procesar:
+            tupla = []
+            tupla = tupla_sin_procesar.split()
+            v_train = float(tupla[8])
+            for idx in range(0,8):
+                tupla[idx] = int(tupla[idx])
+            v_tupla = self.valoracion(tupla[0:8])
+            error_valoracion = (v_train - v_tupla)
+            self.pesos[0] = self.pesos[0] + self.factor_aprendizaje * error_valoracion
+            for i in range(len(tupla)-1):
+                self.pesos[i+1] = self.pesos[i+1] + self.factor_aprendizaje * error_valoracion * tupla[i]
+        archivo_pesos_finales = open("pesos_finales.txt", "w+")
+        string_pesos = ""
+        for peso in self.pesos:
+            string_pesos += str(peso) + " "
+        archivo_pesos_finales.write(string_pesos + "\r\n")
+        archivo_pesos_finales.close()
+
+
+if __name__ == '__main__':
+    jug = AI(Color.Negras, "AI1", None, True, 1)
+    jug.ajuste_minimos_cuadrados("entrenamiento.txt")
