@@ -32,10 +32,10 @@ class Aleatorio(Jugador):
             mover_ficha_x,_ = mover_ficha
             for mov_x,mov_y in movimientos:
                 if self.color == Color.Blancas:
-                    if mov_x < mover_ficha_x:
+                    if mov_x <= mover_ficha_x:
                         movimientos.remove((mov_x,mov_y))
                 else: #self.color == Color.Negras
-                    if mov_x > mover_ficha_x:
+                    if mov_x >= mover_ficha_x:
                         movimientos.remove((mov_x,mov_y))
             if movimientos:
                 movimiento = random.choice(movimientos)
@@ -57,7 +57,8 @@ class AI(Jugador):
         self.entrenando = entrenando
         self.factor_aprendizaje = factor_aprendizaje
         self.color_oponente = Color.Negras if color == Color.Blancas else Color.Blancas
-
+        self.archivo_entrenamiento = ""
+        
     # FUNCIONES DEL ALGORITMO
 
     # Recibe la tupla que representa al tablero
@@ -118,6 +119,7 @@ class AI(Jugador):
         self.pesos[0] = self.pesos[0] + self.factor_aprendizaje * error_valoracion
         for i in range(len(tupla_tablero)):
             self.pesos[i+1] = self.pesos[i+1] + self.factor_aprendizaje * error_valoracion * tupla_tablero[i]
+
 
 	# Parsea el archvio con los valores de entrenamiento y realiza el ajuste de mínimos cuadrados
     def ajuste_minimos_cuadrados(self, archivo_entrenamiento):

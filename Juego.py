@@ -15,7 +15,8 @@ class Juego:
     #"color" es el string "blancas" o "negras"
     def __jugada(self, color):
         jugador = self.jugadores[color]
-        return jugador.mejor_jugada(self.tablero)
+        # Actualiza el tablero
+        jugador.mejor_jugada(self.tablero)
 
     #Retorna la tupla para el tablero actual
     def __obtener_tupla_tablero(self):
@@ -42,7 +43,7 @@ class Juego:
             self.__jugada(Color.Blancas)
             if not self.__hay_ganador():
                 self.__jugada(Color.Negras)
-            if turnos % 1000 == 0:
+            if turnos % 100 == 0:
                 self.tablero.imprimir_tablero_con_fichas()
             turnos += 1
             #print("Turnos = {turnos}".format(turnos=turnos))
