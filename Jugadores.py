@@ -94,8 +94,8 @@ class AI(Jugador):
                         tupla_ganadora_a_grabar = tablero.obtener_tupla()
                         v_train = self.valoracion(tupla_ganadora_a_grabar)
                         tupla_ganadora_a_grabar += [v_train]
-                        self.guardar_tupla(tupla_ganadora_a_grabar, "entrenamiento.txt")
-                        self.ajuste_minimos_cuadrados("entrenamiento.txt") # si gane, el partido termino y recalculo los pesos
+                        self.guardar_tupla(tupla_ganadora_a_grabar, self.archivo_entrenamiento)
+                        self.ajuste_minimos_cuadrados() # si gane, el partido termino y recalculo los pesos
                     return tablero
                 else:
                     valoracion = self.valoracion(nuevo_posible_tablero.obtener_tupla())
@@ -121,8 +121,8 @@ class AI(Jugador):
 
 
 	# Parsea el archvio con los valores de entrenamiento y realiza el ajuste de mínimos cuadrados
-    def ajuste_minimos_cuadrados(self, archivo_entrenamiento):
-        archivo_entrenamiento = open(archivo_entrenamiento, 'r')
+    def ajuste_minimos_cuadrados(self):
+        archivo_entrenamiento = open(self.archivo_entrenamiento, 'r')
         lista_tuplas_sin_procesar = reversed(list(archivo_entrenamiento))
         archivo_entrenamiento.close()
         for tupla_sin_procesar in lista_tuplas_sin_procesar:
@@ -141,9 +141,9 @@ class AI(Jugador):
     # FUNCIONES DE MANEJO DE ARCHIVOS
 
     #  Lee los pesos del archivo de pesos y los carga en los atributos del jugador
-    def cargar_pesos(self, file_path):
+    def cargar_pesos(self, ruta_archivo):
         try:
-            archivo_pesos=open(file_path,"r") 
+            archivo_pesos=open(ruta_archivo,"r") 
         except IOError: 
             archivo_pesos.close()
             return "Hubo un error al intentar abrir el archivo"
@@ -165,9 +165,9 @@ class AI(Jugador):
     # TODO: No se necesita esta funcion, la valuacion a grabar no deberia ser la de
     # la tupla de entrada pero de la tupla que resulta del jugador que haga la sig
     # movida
-    def guardar_tupla(self, tupla_tablero, archivo_entrenamiento):
+    def guardar_tupla(self, tupla_tablero):
         tupla_a_guardar = tupla_tablero.copy() + [self.valoracion(tupla_tablero)]
-        self.grabar_datos_en_disco(tupla_a_guardar, archivo_entrenamiento)
+        self.grabar_datos_en_disco(tupla_a_guardar, self.archivo_entrenamiento)
     
     # dados unos datos en forma de lista y un archivo objetivo, 
     # escribe esos elementos separados por un espacio
@@ -186,7 +186,7 @@ class AI(Jugador):
 if __name__ == '__main__':
     jug = AI(Color.Negras, "AI1", None, True, 1)
     jug.guardar_pesos("pesos.txt")
-    jug.guardar_tupla([1,1,1,1,1,1,1,1], "entrenamiento.txt")
-    jug.guardar_tupla([2,1,0,3,1,5,0,0], "entrenamiento.txt")
-    jug.ajuste_minimos_cuadrados("entrenamiento.txt")
+    jug.guardar_tupla([1,1,1,1,1,1,1,1])
+    jug.guardar_tupla([2,1,0,3,1,5,0,0])
+    jug.ajuste_minimos_cuadrados()
     jug.guardar_pesos("pesos_finales.txt")
