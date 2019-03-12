@@ -193,7 +193,7 @@ class Tablero:
 			posibles_movimientos = self.posibles_movimientos((pos_x,pos_y))
 			contador += len(posibles_movimientos)
 			for movimiento_x,_ in posibles_movimientos:
-				if movimiento_x <= pos_x:
+				if (color == Color.Blancas and movimiento_x <= pos_x) or (color == Color.Negras and movimiento_x >= pos_x):
 					contador -= 1
 		return contador
     
