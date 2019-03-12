@@ -1,6 +1,5 @@
 from Constantes import *
 from enum import Enum
-import copy
 
 #TODO: pensar en optimizaciones.
 
@@ -44,9 +43,9 @@ class Tablero:
 	# Retorna una copia (deep copy) del tablero actual
 	def copy(self):
 		tablero = Tablero()
-		tablero.blancas = copy.deepcopy(self.blancas)
-		tablero.negras = copy.deepcopy(self.negras)
-		tablero.tupla = copy.deepcopy(self.tupla)
+		tablero.blancas = self.blancas.copy()
+		tablero.negras = self.negras.copy()
+		tablero.tupla = self.tupla.copy()
 		return tablero
 
     # Devuelve los elementos que representan el tablero como una tupla.
