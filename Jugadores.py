@@ -94,7 +94,7 @@ class AI(Jugador):
                         tupla_ganadora_a_grabar = tablero.obtener_tupla()
                         v_train = self.valoracion(tupla_ganadora_a_grabar)
                         tupla_ganadora_a_grabar += [v_train]
-                        self.guardar_tupla(tupla_ganadora_a_grabar, self.archivo_entrenamiento)
+                        self.guardar_tupla(tupla_ganadora_a_grabar)
                         self.ajuste_minimos_cuadrados() # si gane, el partido termino y recalculo los pesos
                     return tablero
                 else:
@@ -109,7 +109,7 @@ class AI(Jugador):
             tupla_ganadora_a_grabar = tablero.obtener_tupla()
             v_train = self.valoracion(tupla_ganadora_a_grabar)
             tupla_ganadora_a_grabar += [v_train]
-            self.guardar_tupla(tupla_ganadora_a_grabar, "entrenamiento.txt")
+            self.guardar_tupla(tupla_ganadora_a_grabar)
         return tablero
     
     # no es necesaria ahora?
