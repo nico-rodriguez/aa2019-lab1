@@ -30,10 +30,10 @@ class Aleatorio(Jugador):
             mover_ficha_x,_ = mover_ficha
             for mov_x,mov_y in movimientos:
                 if self.color == Color.Blancas:
-                    if mov_x < mover_ficha_x:
+                    if mov_x <= mover_ficha_x:
                         movimientos.remove((mov_x,mov_y))
                 else: #self.color == Color.Negras
-                    if mov_x > mover_ficha_x:
+                    if mov_x >= mover_ficha_x:
                         movimientos.remove((mov_x,mov_y))
             if movimientos:
                 movimiento = random.choice(movimientos)
@@ -55,7 +55,14 @@ class AI(Jugador):
         self.entrenando = entrenando
         self.factor_aprendizaje = factor_aprendizaje
         self.color_oponente = Color.Negras if color == Color.Blancas else Color.Blancas
+        self.archivo_entrenamiento = ""
         
+
+    # Setear la ruta (relativa) al archivo de entrenamiento para que el jugador escriba en él
+    # las tuplas del tablero y sus valores de v_train durante la partida.
+    def set_archivo_entrenamiento(self, archivo_entrenamiento):
+        self.archivo_entrenamiento = archivo_entrenamiento
+
     # Recibe la tupla que representa al tablero
     # Retorna la suma ponderada de los elementos de la tupla
     # El orden de los elementos de la tupla es el especificado en Tablero.py
@@ -110,11 +117,10 @@ class AI(Jugador):
         pesos_a_guardar = tupla.copy().append(valoracion(tupla))
         guardar_tupla(weights_file_path, [tupla])
 
-    def cargar_pesos(file_path):
+    def cargar_pesos(self, file_path):
         try:
             archivo_pesos=open(file_path,"r") 
-        except IOError: 
-            archivo_pesos.close()
+        except IOError:
             return "Hubo un error al intentar abrir el archivo"
         pesos = []
         linea = archivo_pesos.readline()
