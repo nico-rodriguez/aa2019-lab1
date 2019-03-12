@@ -81,7 +81,7 @@ if __name__ == '__main__':
 
     # Crear un directorio para guardar los datos de entrenamiento
     currentDT = datetime.datetime.now()
-    directorio = currentDT.strftime("%Y-%m-%d %H:%M:%S")
+    directorio = currentDT.strftime("%Y-%m-%d-%H%M%S")
     os.mkdir(directorio)
     print("Se crea el directorio {dir}".format(dir=directorio))
 
@@ -108,7 +108,7 @@ if __name__ == '__main__':
                 victorias += 1
         print("Victorias = {victorias}".format(victorias=victorias))
         # Llamar ajuste de minimos cuadrados de Jugadores.py
-        jugador1.ajuste_minimos_cuadrados(ruta_archivo_entrenamiento)
+        jugador1.ajuste_minimos_cuadrados()
         # Decidir y actualizar los pesos de la version previa del AI2
         if not(diferencia_partidas is None):
             # Registrar los pesos para pasarselos a la "versión previa" de la AI

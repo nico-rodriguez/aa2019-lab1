@@ -43,6 +43,10 @@ class Juego:
             self.__jugada(Color.Blancas)
             if not self.__hay_ganador():
                 self.__jugada(Color.Negras)
+                if self.__hay_ganador():
+                    self.jugadores[Color.Blancas].perdi(self.tablero)
+            else:
+                self.jugadores[Color.Negras].perdi(self.tablero)
             if turnos % 100 == 0:
                 self.tablero.imprimir_tablero_con_fichas()
             turnos += 1
