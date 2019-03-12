@@ -20,7 +20,9 @@ class Aleatorio(Jugador):
 
     def __init__(self, color, nombre):
         super(Aleatorio, self).__init__(color, nombre)
-        
+
+    # Elije una juagda al azar que lo acerque al objetivo. Se decide esto para que
+    # el partido eventualemnte termine    
     def mejor_jugada(self, tablero):
         fichas = tablero.negras if self.color == Color.Negras else tablero.blancas
         while True:
@@ -59,17 +61,17 @@ class AI(Jugador):
     # Recibe la tupla que representa al tablero
     # Retorna la suma ponderada de los elementos de la tupla
     # El orden de los elementos de la tupla es el especificado en Tablero.py
-    def valoracion(self, tupla):
-        gane = tupla[2] == 10 if self.color == Color.Blancas else tupla[3] == 10
-        perdi = tupla[2] == 10 if self.color == Color.Negras else tupla[3] == 10
+    def valoracion(self, tupla_tablero):
+        gane = tupla_tablero[2] == 10 if self.color == Color.Blancas else tupla_tablero[3] == 10
+        perdi = tupla_tablero[2] == 10 if self.color == Color.Negras else tupla_tablero[3] == 10
         if gane:
             return 1
         elif perdi:
             return -1
         else:
             val = self.pesos[0]
-            for i in range(len(tupla)):
-                val += self.pesos[i+1]*tupla[i]
+            for i in range(len(tupla_tablero)):
+                val += self.pesos[i+1] * tupla_tablero[i]
             return val
 
     # Recibe un tablero y retorna para dicho tablero, el movimiento de la forma (ficha, movimiento)
@@ -85,8 +87,13 @@ class AI(Jugador):
                 if nuevo_posible_tablero.hay_ganador():
                     tablero.actualizar_tablero(ficha_maxima, movimiento_maximo, self.color)
                     if self.entrenando:
-                        # TODO: guardar los pesos y la valoración de entrenamiento (v_train)
-                        self.actualizar_pesos(self.valoracion(tablero.obtener_tupla()), valoracion_tablero, tablero.obtener_tupla())
+                        # TODO: checkear que ande bien esto
+                        # se esta grabando la tupla que tiene los valores del tablero y su valoracion al final
+                        tupla_ganadora_a_grabar = tablero.obtener_tupla()
+                        v_train = self.valoracion(tupla_ganadora_a_grabar)
+                        tupla_ganadora_a_grabar += [v_train]
+                        self.guardar_tupla(tupla_ganadora_a_grabar, "entrenamiento.txt")
+                        self.ajuste_minimos_cuadrados("entrenamiento.txt") # si gane, el partido termino y recalculo los pesos
                     return tablero
                 else:
                     valoracion = self.valoracion(nuevo_posible_tablero.obtener_tupla())
@@ -96,15 +103,19 @@ class AI(Jugador):
                         movimiento_maximo = movimiento
         tablero.actualizar_tablero(ficha_maxima, movimiento_maximo, self.color)
         if self.entrenando:
-            # TODO: guardar los pesos y la valoración de entrenamiento (v_train)
-            self.actualizar_pesos(valoracion_maxima, valoracion_tablero, tablero.obtener_tupla())
+            # TODO: checkear que ande bien esto
+            tupla_ganadora_a_grabar = tablero.obtener_tupla()
+            v_train = self.valoracion(tupla_ganadora_a_grabar)
+            tupla_ganadora_a_grabar += [v_train]
+            self.guardar_tupla(tupla_ganadora_a_grabar, "entrenamiento.txt")
         return tablero
     
-    def actualizar_pesos(self, v_train, v_tupla, tupla):
+    # no es necesaria ahora?
+    def actualizar_pesos(self, v_train, v_tupla, tupla_tablero):
         error_valoracion = (v_train - v_tupla)
         self.pesos[0] = self.pesos[0] + self.factor_aprendizaje * error_valoracion
-        for i in range(len(tupla)):
-            self.pesos[i+1] = self.pesos[i+1] + self.factor_aprendizaje * error_valoracion * tupla[i]
+        for i in range(len(tupla_tablero)):
+            self.pesos[i+1] = self.pesos[i+1] + self.factor_aprendizaje * error_valoracion * tupla_tablero[i]
     
     def cargar_pesos(self, file_path):
         try:
