@@ -80,7 +80,6 @@ class AI(Jugador):
     # Recibe un tablero y retorna para dicho tablero, el movimiento de la forma (ficha, movimiento)
     # Que tiene la mayor valoracion
     def mejor_jugada(self, tablero):
-        valoracion_tablero = self.valoracion(tablero.obtener_tupla())
         fichas = tablero.negras if self.color == Color.Negras else tablero.blancas
         valoracion_maxima = None
         for ficha in fichas:
