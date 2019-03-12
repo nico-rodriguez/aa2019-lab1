@@ -106,11 +106,7 @@ class AI(Jugador):
         for i in range(len(tupla)):
             self.pesos[i+1] = self.pesos[i+1] + self.factor_aprendizaje * error_valoracion * tupla[i]
     
-    def guardar_tupla(self, tupla):
-        pesos_a_guardar = tupla.copy().append(valoracion(tupla))
-        guardar_tupla(weights_file_path, [tupla])
-
-    def cargar_pesos(file_path):
+    def cargar_pesos(self, file_path):
         try:
             archivo_pesos=open(file_path,"r") 
         except IOError: 
@@ -119,25 +115,30 @@ class AI(Jugador):
         pesos = []
         linea = archivo_pesos.readline()
         while(linea != ""):
-            pesos.append(map(toFloat,linea.split()))
+            pesos.append(map(float, linea.split()))
             linea = archivo_pesos.readline()
         archivo_pesos.close()
         return pesos
+
+    def guardar_pesos(self, archivo_pesos):
+        pesos_a_guardar = self.pesos.copy()
+        self.grabar_datos_en_disco(pesos_a_guardar, archivo_pesos)
+
+    def guardar_tupla(self, tupla_tablero, archivo_entrenamiento):
+        tupla_a_guardar = tupla_tablero.copy() + [self.valoracion(tupla_tablero)]
+        self.grabar_datos_en_disco(tupla_a_guardar, archivo_entrenamiento)
     
-    def guardar_tupla(file_path, tupla):
+    def grabar_datos_en_disco(self, datos, ruta_archivo):
         try:
-            archivo_entrenamiento=open(file_path,"a+")
+            archivo=open(ruta_archivo,"a+")
         except IOError: 
-            archivo_entrenamiento.close()
+            archivo.close()
             return "Hubo un error al intentar abrir/escribir el archivo"
-        for peso in pesos:
-            linea_nueva = ""
-            for wi in peso:
-                linea_nueva += (str(wi) + " ")
-            linea_nueva = linea_nueva[:-1]
-            archivo_entrenamiento.write(linea_nueva + "\n")
-        archivo_entrenamiento.close()
-        return pesos
+        linea_nueva = ""
+        for elemento in datos:
+            linea_nueva += (str(elemento) + " ")
+        archivo.write(linea_nueva + "\n")
+        archivo.close()
 
 	# Parsea el archvio con los valores de entrenamiento y realiza el ajuste de mínimos cuadrados
     def ajuste_minimos_cuadrados(self, archivo_entrenamiento):
@@ -155,16 +156,12 @@ class AI(Jugador):
             self.pesos[0] = self.pesos[0] + self.factor_aprendizaje * error_valoracion
             for i in range(len(tupla)-1):
                 self.pesos[i+1] = self.pesos[i+1] + self.factor_aprendizaje * error_valoracion * tupla[i]
-        archivo_pesos_finales = open("pesos_finales.txt", "w+")
-        string_pesos = ""
-        for peso in self.pesos:
-            string_pesos += str(peso) + " "
-        archivo_pesos_finales.write(string_pesos + "\r\n")
-        archivo_pesos_finales.close()
-
+        self.grabar_datos_en_disco(self.pesos, "pesos_finales.txt")
 
 if __name__ == '__main__':
     jug = AI(Color.Negras, "AI1", None, True, 1)
-    # TODO: testear guardar tupla
-    # TODO: interaccion de testear guardar tupla con min cuadrados
+    jug.guardar_pesos("pesos.txt")
+    jug.guardar_tupla([1,1,1,1,1,1,1,1], "entrenamiento.txt")
+    jug.guardar_tupla([2,1,0,3,1,5,0,0], "entrenamiento.txt")
     jug.ajuste_minimos_cuadrados("entrenamiento.txt")
+    jug.guardar_pesos("pesos_finales.txt")
