@@ -23,6 +23,7 @@ if __name__ == '__main__':
     print ('Number of arguments:', len(sys.argv), 'arguments.')
     print ('Argument List:', str(sys.argv))
     #Chequear número y valores de los argumentos
+    #TODO: cambiar los parametros de entrada a AI y Aleatorio; tener AI1 AI2 como nombres internos
     if len(sys.argv) != 4:
         print("***Número incorrecto de parámetros***")
         print(uso)
@@ -44,4 +45,9 @@ if __name__ == '__main__':
         ganador = juego.jugar()
         #Para debugging
         print(ganador)
+        # TODO: Victorias
         print("Victorias = {victorias}".format(victorias=victorias))
+        # TODO: crear archivo vacio para las tuplas
+        # TODO: avisar a jugador cual es el archivo sobre el cual escribira las tuplas
+        # TODO: llamar ajuste de minimos cuadrados de Jugadores.py
+        # TODO: decidir y actualizar los pesos de la version previa del AI2

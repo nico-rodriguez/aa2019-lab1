@@ -2,6 +2,8 @@ from Constantes import *
 from enum import Enum
 import copy
 
+#TODO: pensar en optimizaciones.
+
 '''
 La clase tablero contiene las posiciones del tablero, las posiciones de las
 fichas de los dos jugadores y algunas cantidades de interés como el número

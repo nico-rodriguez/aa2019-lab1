@@ -165,4 +165,6 @@ class AI(Jugador):
 
 if __name__ == '__main__':
     jug = AI(Color.Negras, "AI1", None, True, 1)
+    # TODO: testear guardar tupla
+    # TODO: interaccion de testear guardar tupla con min cuadrados
     jug.ajuste_minimos_cuadrados("entrenamiento.txt")

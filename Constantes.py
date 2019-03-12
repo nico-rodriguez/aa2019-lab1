@@ -50,3 +50,5 @@ direcciones = [
 # Valores extremos de la función objetivo
 valoracion_maxima = 1
 valoracion_minima = -1
+
+#TODO: Nombre de archivos como constante (sufijo para los archivos de tuplas y valoraciones)
