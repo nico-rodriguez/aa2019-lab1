@@ -140,7 +140,7 @@ class AI(Jugador):
                     if valoracion_maxima is None or valoracion > valoracion_maxima:
                         valoracion_maxima = valoracion
                         ficha_maxima = ficha
-                        movimiento_maximo = movimiento
+                        movimiento_maximo = movimiento 
         tablero.actualizar_tablero(ficha_maxima, movimiento_maximo, self.color)
         return tablero
 
