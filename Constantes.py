@@ -51,4 +51,7 @@ direcciones = [
 valoracion_maxima = 1
 valoracion_minima = -1
 
+# Nombre de archivo de pesos finales
+pesos_finales = "pesos_finales.txt"
+
 #TODO: Nombre de archivos como constante (sufijo para los archivos de tuplas y valoraciones)

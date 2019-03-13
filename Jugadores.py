@@ -127,20 +127,13 @@ class AI(Jugador):
                 if nuevo_posible_tablero.hay_ganador():
                     movimiento_maximo = movimiento
                     ficha_maxima = ficha
-                    print("tablero ganador")
-                    nuevo_posible_tablero.imprimir_tablero_con_fichas()
                     tablero.actualizar_tablero(ficha_maxima, movimiento_maximo, self.color)
                     if self.entrenando:
-                        print("voy a ganar!!")
-                        # se esta grabando la tupla que tiene los valores del tablero y su valoracion al final
-                        # esta valoracion final cuenta como la v(tn+1)
-                        tupla_ganadora_a_grabar = tablero.obtener_tupla().copy()
-                        v_train = self.valoracion(tupla_ganadora_a_grabar)
-                        tupla_ganadora_a_grabar += [v_train]
-                        print(tupla_ganadora_a_grabar)
-                        self.grabar_datos_en_disco(tupla_ganadora_a_grabar, self.archivo_entrenamiento)
+                        tupla_ganadora = tablero.obtener_tupla()
+                        v_train = self.valoracion(tupla_ganadora)
+                        self.tupla_entrenamiento_a_grabar += [v_train]
+                        self.grabar_datos_en_disco(self.tupla_entrenamiento_a_grabar, self.archivo_entrenamiento)
                         self.tupla_entrenamiento_a_grabar = None
-                        print("tupla deberia estar grabada")
                     return tablero
                 else:
                     valoracion = self.valoracion(nuevo_posible_tablero.obtener_tupla())
@@ -178,7 +171,7 @@ class AI(Jugador):
             self.pesos[0] = self.pesos[0] + self.factor_aprendizaje * error_valoracion
             for i in range(len(tupla)-1):
                 self.pesos[i+1] = self.pesos[i+1] + self.factor_aprendizaje * error_valoracion * tupla[i]
-        self.grabar_datos_en_disco(self.pesos, "pesos_finales.txt")
+        self.grabar_datos_en_disco(self.pesos, pesos_finales)
 
     # FUNCIONES DE MANEJO DE ARCHIVOS
 

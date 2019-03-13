@@ -117,5 +117,6 @@ if __name__ == '__main__':
             if len(lista_pesos_previos) >= diferencia_partidas:
                 jugador2.pesos = lista_pesos_previos[0]
                 lista_pesos_previos.remove(lista_pesos_previos[0])
-                
+    # Escribe en el archivo de pesos finales un separador
+    jugador1.grabar_datos_en_disco([directorio, "\n"], pesos_finales)            
     print("La AI ganó el {porcentaje}% de las veces".format(porcentaje=victorias/num_partidas*100))
