@@ -78,6 +78,7 @@ class AI(Jugador):
         self.factor_aprendizaje = factor_aprendizaje
         self.color_oponente = Color.Negras if color == Color.Blancas else Color.Blancas
         self.archivo_entrenamiento = "entrenamiento.txt"
+        self.archivo_pesos = None
         self.tupla_entrenamiento_a_grabar = None
         
     # FUNCIONES DEL ALGORITMO
@@ -174,12 +175,15 @@ class AI(Jugador):
                 self.pesos[i+1] = self.pesos[i+1] + self.factor_aprendizaje * error_valoracion * tupla[i] * (.98**n)
             n += 1
         for i in range(len(self.pesos)):
-            self.grabar_datos_en_disco([self.pesos[i]], pesos_finales + str(i) +".txt")
+            self.grabar_datos_en_disco([self.pesos[i]], self.archivo_pesos + str(i) +".txt")
 
     # FUNCIONES DE MANEJO DE ARCHIVOS
 
     def set_archivo_entrenamiento(self, ruta_archivo):
         self.archivo_entrenamiento = ruta_archivo
+    
+    def set_archivo_pesos(self, ruta_archivo):
+        self.archivo_pesos = ruta_archivo
 
     #  Lee los pesos del archivo de pesos y los carga en los atributos del jugador
     def cargar_pesos(self, ruta_archivo):
@@ -197,8 +201,9 @@ class AI(Jugador):
         return pesos
 
     # Escribe en el archivo de pesos, los atributos de los pesos
-    def guardar_pesos(self, archivo_pesos):
+    def guardar_pesos(self):
         pesos_a_guardar = self.pesos.copy()
+        archivo_pesos = self.archivo_pesos + "_finales.txt"
         self.grabar_datos_en_disco(pesos_a_guardar, archivo_pesos)
     
     # dados unos datos en forma de lista y un archivo objetivo, 

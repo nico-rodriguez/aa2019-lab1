@@ -87,6 +87,8 @@ if __name__ == '__main__':
 
     # Almacena la cantidad de victorias cada 10, 20, 30 ... partidas
     evolucion = []
+    evolucion_formateado = []
+    victorias_aux = None
 
     print("Comenzando la serie de partidas")
     for i in range(num_partidas):
@@ -95,9 +97,11 @@ if __name__ == '__main__':
         try:
             # Se agrega un timestamp al nombre del archivo para que queden ordenados
             ruta_archivo_entrenamiento = directorio + "/" + "partida{num}".format(num=i) + ".txt"
+            ruta_archivo_pesos = directorio + "/" + "peso"
             open(ruta_archivo_entrenamiento, "w").close()
             # Avisar a jugador cual es el archivo sobre el cual escribira las tuplas
             jugador1.set_archivo_entrenamiento(ruta_archivo_entrenamiento)
+            jugador1.set_archivo_pesos(ruta_archivo_pesos)
         except Exception as e:
             print("Trainin.py: Error creando el archivo de entrenamiento")
             raise e
@@ -126,16 +130,32 @@ if __name__ == '__main__':
 
         # Actualizar evolución de victorias de la AI (si num_partidas es al menos 30)
         # cada 10 partidas
+        if victorias_aux is None:
+            victorias_aux = 0
+        
         if num_partidas >= 30:
             if (i+1) % 10 == 0:
-                evolucion.append(victorias)
+                victorias_rango = victorias - victorias_aux 
+                evolucion.append(victorias_rango)
+                victorias_aux = victorias
 
     # Imprimr los resultados de la evolución de victorias de la AI
     for i in range(len(evolucion)):
         if (i+1)*10 == num_partidas:
-            print("AI ganó {ganadas} de las {primeras_partidas} partidas".format(ganadas=evolucion[i], primeras_partidas=(i+1)*10))
+            string_evol_formateado = "AI ganó {ganadas} de las {primeras_partidas} partidas".format(ganadas=evolucion[i], primeras_partidas=(i+1)*10)
+            print(string_evol_formateado)
+            string_evol_formateado += "\n"
+            evolucion_formateado.append(string_evol_formateado)
         else:
-            print("AI ganó {ganadas} de las {primeras_partidas} primeras partidas".format(ganadas=evolucion[i], primeras_partidas=(i+1)*10))
+            string_evol_formateado = "AI ganó {ganadas} de las {primeras_partidas} primeras partidas".format(ganadas=evolucion[i], primeras_partidas=(i+1)*10)
+            print(string_evol_formateado)
+            string_evol_formateado += "\n"
+            evolucion_formateado.append(string_evol_formateado)
+    string_evol_formateado = "La AI ganó el {porcentaje}% de las veces".format(porcentaje=victorias/num_partidas*100)
+    print(string_evol_formateado)
+    string_evol_formateado += "\n"
+    evolucion_formateado.append(string_evol_formateado)
+    jugador1.grabar_datos_en_disco(evolucion_formateado, directorio + "/" + "resumen_winrate.txt")           
     # Escribe en el archivo de pesos finales un separador
-    jugador1.grabar_datos_en_disco([directorio, "\n"], pesos_finales)            
-    print("La AI ganó el {porcentaje}% de las veces".format(porcentaje=victorias/num_partidas*100))
+    jugador1.grabar_datos_en_disco([directorio, "\n"], pesos_finales) 
+    jugador1.guardar_pesos()

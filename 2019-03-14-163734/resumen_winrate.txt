@@ -1,0 +1,5 @@
+AI ganó 8 de las 10 primeras partidas
+ AI ganó 8 de las 20 primeras partidas
+ AI ganó 8 de las 30 partidas
+ La AI ganó el 80.0% de las veces
+ 

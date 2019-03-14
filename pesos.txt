@@ -1,6 +1,11 @@
-0.001 -0.00625 0.00625 0.125 -0.125 -0.00625 0.00625 -0.005 0.005
+1 -0.000625 0.000625 0.0125 -0.0125 -0.000625 0.000625 -0.0005 0.0005
 
--0.001180190481802967 -0.0014870512035696237 0.021292626560870703 0.11934082153593027 -0.13174997138097613 -0.0031243410428415273 0.006454355848515878 -0.015642962383599284 0.014221439250686908 
--0.001 -0.0028547275603340505 0.01716634966897754 0.12053082975367416 -0.13019802869750768 -0.003421400429798019 0.006572642614385958 -0.015 0.015
-
-"semilla"
+w0 ...
+w1 es la suma de las distancias verticales de todas las fichas blancas hacia la última fila libre de la punta opuesta
+w2 es lo mismo que x1 pero para las fichas negras
+w3 es la cantidad de fichas blancas que llegaron a la punta opuesta del tablero
+w4 es lo mismo que x3 pero para las fichas negras
+w5 es la cantidad de movimientos de blancas que disminuyen la distancia a la punta opuesta
+w6 es lo mismo que x5 pero para las fichas negras
+w7 la distancia de la ficha mas retrasada a la ultima posicion libre
+w8 es lo mismo que x7 pero para las fichas negras
