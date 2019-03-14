@@ -160,18 +160,21 @@ class AI(Jugador):
         lista_tuplas_sin_procesar_aux = [tupla.strip() for tupla in lista_tuplas_sin_procesar_aux]
         lista_tuplas_sin_procesar = list(reversed(lista_tuplas_sin_procesar_aux))
         archivo_entrenamiento.close()
+        n = 0
         for tupla_sin_procesar in lista_tuplas_sin_procesar:
             tupla = []
             tupla = tupla_sin_procesar.split()
             v_train = float(tupla[8])
             for idx in range(0,8):
-                tupla[idx] = int(tupla[idx])
+                tupla[idx] = float(tupla[idx])
             v_tupla = self.valoracion(tupla[0:8])
             error_valoracion = (v_train - v_tupla)
-            self.pesos[0] = self.pesos[0] + self.factor_aprendizaje * error_valoracion
+            self.pesos[0] = self.pesos[0] + self.factor_aprendizaje * error_valoracion * (.98**n)
             for i in range(len(tupla)-1):
-                self.pesos[i+1] = self.pesos[i+1] + self.factor_aprendizaje * error_valoracion * tupla[i]
-        self.grabar_datos_en_disco(self.pesos, pesos_finales)
+                self.pesos[i+1] = self.pesos[i+1] + self.factor_aprendizaje * error_valoracion * tupla[i] * (.98**n)
+            n += 1
+        for i in range(len(self.pesos)):
+            self.grabar_datos_en_disco([self.pesos[i]], pesos_finales + str(i) +".txt")
 
     # FUNCIONES DE MANEJO DE ARCHIVOS
 

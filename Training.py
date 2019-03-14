@@ -41,10 +41,10 @@ if __name__ == '__main__':
     if jugador1_str != "Aleatorio" and jugador2_str != "Aleatorio":
         lista_pesos_previos = []      # para pasarselos a la "versión previa" de la AI
         jugadores = ["AI1", "AI2"]
-        jugador1 = AI(Color.Blancas, "AI1", None, True, 0.00001)
+        jugador1 = AI(Color.Blancas, "AI1", None, True, factor_aprendizaje)
         print("Leyendo pesos del jugador 1")
         jugador1.cargar_pesos(jugador1_str)
-        jugador2 = AI(Color.Negras, "AI2", None, False, 0.00001)
+        jugador2 = AI(Color.Negras, "AI2", None, False, factor_aprendizaje)
         print("Leyendo pesos del jugador 2")
         jugador1.cargar_pesos(jugador2_str)
         if len(sys.argv) != 5:
@@ -60,14 +60,14 @@ if __name__ == '__main__':
     # Solo el primero es AI
     elif jugador1_str != "Aleatorio" and jugador2_str == "Aleatorio":
         jugadores = ["AI", "Aleatorio"]
-        jugador1 = AI(Color.Blancas, "AI", None, True, 0.00001)
+        jugador1 = AI(Color.Blancas, "AI", None, True, factor_aprendizaje)
         print("Leyendo pesos del jugador 1")
         jugador1.cargar_pesos(jugador1_str)
         jugador2 = Aleatorio(Color.Negras, "Aleatorio")
     # Solo el segundo es AI
     elif jugador1_str == "Aleatorio" and jugador2_str != "Aleatorio":
         jugadores = ["Aleatorio", "AI"]
-        jugador1 = AI(Color.Blancas, "AI", None, True, 0.00001)
+        jugador1 = AI(Color.Blancas, "AI", None, True, factor_aprendizaje)
         jugador2 = Aleatorio(Color.Negras, "Aleatorio")
         print("Leyendo pesos del jugador 2")
         jugador1.cargar_pesos(jugador2_str)
@@ -98,7 +98,10 @@ if __name__ == '__main__':
         except Exception as e:
             print("Trainin.py: Error creando el archivo de entrenamiento")
             raise e
-        juego = Juego(jugador1, jugador2)
+        if i % 2 == 0:
+            juego = Juego(jugador2, jugador1)
+        else:
+            juego = Juego(jugador1, jugador2)
         ganador = juego.jugar()
         #Para debugging
         print("Partida {partida} => Ganó {ganador}.".format(partida=i, ganador=ganador))

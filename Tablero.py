@@ -1,5 +1,6 @@
 from Constantes import *
 from enum import Enum
+from math import sqrt
 
 #TODO: pensar en optimizaciones.
 
@@ -36,8 +37,8 @@ class Tablero:
 			"fichas_negras_en_punta_opuesta" : self.fichas_en_punta_opuesta(Color.Negras),
 			"posiciones_disminuyen_distancia_blancas" : self.posiciones_disminuyen_distancia_jugador(Color.Blancas),
 			"posiciones_disminuyen_distancia_negras" : self.posiciones_disminuyen_distancia_jugador(Color.Negras),
-			"posibles_movimientos_blancas" : self.posibles_movimientos_jugador(Color.Blancas),
-			"posibles_movimientos_negras" : self.posibles_movimientos_jugador(Color.Negras),
+			"distancia_ultima_ficha_a_primer_espacio_libre_blancas" : self.distancia_ultima_ficha_a_primer_espacio_libre(Color.Blancas),
+			"distancia_ultima_ficha_a_primer_espacio_libre_negras" : self.distancia_ultima_ficha_a_primer_espacio_libre(Color.Negras),
 		}
         
 	# Retorna una copia (deep copy) del tablero actual
@@ -59,7 +60,7 @@ class Tablero:
 		return [self.tupla["distancia_blancas"], self.tupla["distancia_negras"],
                 self.tupla["fichas_blancas_en_punta_opuesta"], self.tupla["fichas_negras_en_punta_opuesta"],
                 self.tupla["posiciones_disminuyen_distancia_blancas"], self.tupla["posiciones_disminuyen_distancia_negras"],
-                self.tupla["posibles_movimientos_blancas"], self.tupla["posibles_movimientos_negras"]]
+                self.tupla["distancia_ultima_ficha_a_primer_espacio_libre_blancas"], self.tupla["distancia_ultima_ficha_a_primer_espacio_libre_negras"]]
     
 	# tablero_actual es una instancia de Tablero
 	# ficha es una tupla con la posición de la ficha a mover
@@ -78,7 +79,7 @@ class Tablero:
 			elif ficha in punta_negra and not(movimiento in punta_negra):
 				self.tupla["fichas_blancas_en_punta_opuesta"] -= 1
 			self.tupla["posiciones_disminuyen_distancia_blancas"] = self.posiciones_disminuyen_distancia_jugador(Color.Blancas)
-			self.tupla["posibles_movimientos_blancas"] = self.posibles_movimientos_jugador(Color.Blancas)
+			self.tupla["distancia_ultima_ficha_a_primer_espacio_libre_blancas"] = self.distancia_ultima_ficha_a_primer_espacio_libre(Color.Blancas)
 		else:
 			self.tupla["distancia_negras"] = self.distancia(Color.Negras)
 			if not(ficha in punta_blanca) and movimiento in punta_blanca:
@@ -86,7 +87,7 @@ class Tablero:
 			elif ficha in punta_blanca and not(movimiento in punta_blanca):
 				self.tupla["fichas_negras_en_punta_opuesta"] -= 1
 			self.tupla["posiciones_disminuyen_distancia_negras"] = self.posiciones_disminuyen_distancia_jugador(Color.Negras)
-			self.tupla["posibles_movimientos_negras"] = self.posibles_movimientos_jugador(Color.Negras)
+			self.tupla["distancia_ultima_ficha_a_primer_espacio_libre_negras"] = self.distancia_ultima_ficha_a_primer_espacio_libre(Color.Negras)
 
 	#Retorna la suma de las distancias de las fichas de color "color" hacia la fila libre mas lejana de la punta opuesta
 	def distancia(self, color):
@@ -174,7 +175,7 @@ class Tablero:
 							posibles_saltos.add(nueva_pos)
 
 		return list(posibles_movimientos)
-
+	'''
 	#Retorna la cantidad de movimientos posibles para el jugador con color "color"
 	#Incluye movimientos "hacia atras"
 	def posibles_movimientos_jugador(self, color):
@@ -183,7 +184,7 @@ class Tablero:
 		for pos in lista:
 			contador += len(self.posibles_movimientos(pos))
 		return contador
-
+	'''
 	#Retorna las cantidad de movimientos posibles para el jugador con color "color", que lo acercan a la punta opuesta
 	def posiciones_disminuyen_distancia_jugador(self, color):
 		contador = 0
@@ -195,7 +196,25 @@ class Tablero:
 				if (color == Color.Blancas and movimiento_x <= pos_x) or (color == Color.Negras and movimiento_x >= pos_x):
 					contador -= 1
 		return contador
-    
+  
+	#Retorna la distancia entre la ultima ficha a la posicion libre mas lejana.
+	def distancia_ultima_ficha_a_primer_espacio_libre(self, color):
+		# encotnrar la ultima ficha
+		fichas = self.negras if color == Color.Negras else self.blancas
+		ficha_ultima = max(fichas) if color == Color.Negras else min(fichas)
+
+		# encontrar la posicion libre mas lejana
+		posiciones_meta = punta_blanca if color == Color.Negras else punta_negra
+		posiciones_meta_aux = posiciones_meta.copy()
+		for posicion in posiciones_meta:
+			if self.posicion_ocupada(posicion):
+				posiciones_meta_aux.remove(posicion)
+
+		if posiciones_meta_aux:
+			posicion_libre_mas_lejana = min(posiciones_meta_aux) if color == Color.Negras else max(posiciones_meta_aux)
+		else:
+			posicion_libre_mas_lejana = min(punta_blanca) if color == Color.Negras else max(punta_negra)
+		return sqrt(sum([(a - b) **2 for a, b in zip(ficha_ultima, posicion_libre_mas_lejana)]))
     #Retorna true si hay un ganador para el tablero actual
 	def hay_ganador(self):
 		return self.tupla["fichas_blancas_en_punta_opuesta"] == 10 or self.tupla["fichas_negras_en_punta_opuesta"] == 10

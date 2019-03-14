@@ -47,7 +47,7 @@ class Juego:
                     self.jugadores[Color.Blancas].perdi(self.tablero)
             else:
                 self.jugadores[Color.Negras].perdi(self.tablero)
-            if turnos % 1 == 0:
+            if turnos % 100 == 0:
                 self.tablero.imprimir_tablero_con_fichas()
             turnos += 1
             #print("Turnos = {turnos}".format(turnos=turnos))
