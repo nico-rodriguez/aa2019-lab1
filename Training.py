@@ -85,6 +85,9 @@ if __name__ == '__main__':
     os.mkdir(directorio)
     print("Se crea el directorio {dir}".format(dir=directorio))
 
+    # Almacena la cantidad de victorias cada 10, 20, 30 ... partidas
+    evolucion = []
+
     print("Comenzando la serie de partidas")
     for i in range(num_partidas):
         print("Comenzando partida {num}".format(num=i))
@@ -120,6 +123,19 @@ if __name__ == '__main__':
             if len(lista_pesos_previos) >= diferencia_partidas:
                 jugador2.pesos = lista_pesos_previos[0]
                 lista_pesos_previos.remove(lista_pesos_previos[0])
+
+        # Actualizar evolución de victorias de la AI (si num_partidas es al menos 30)
+        # cada 10 partidas
+        if num_partidas >= 30:
+            if (i+1) % 10 == 0:
+                evolucion.append(victorias)
+
+    # Imprimr los resultados de la evolución de victorias de la AI
+    for i in range(len(evolucion)):
+        if (i+1)*10 == num_partidas:
+            print("AI ganó {ganadas} de las {primeras_partidas} partidas".format(ganadas=evolucion[i], primeras_partidas=(i+1)*10))
+        else:
+            print("AI ganó {ganadas} de las {primeras_partidas} primeras partidas".format(ganadas=evolucion[i], primeras_partidas=(i+1)*10))
     # Escribe en el archivo de pesos finales un separador
     jugador1.grabar_datos_en_disco([directorio, "\n"], pesos_finales)            
     print("La AI ganó el {porcentaje}% de las veces".format(porcentaje=victorias/num_partidas*100))

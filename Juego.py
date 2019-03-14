@@ -8,8 +8,7 @@ class Juego:
     #El "jugador1" siempre es el que mueve primero
     def __init__(self, jugador1, jugador2):
         self.tablero = Tablero()
-        self.jugadores = { Color.Blancas : jugador1,
-                           Color.Negras  : jugador2 }
+        self.jugadores = { Color.Blancas : jugador1, Color.Negras : jugador2 } if jugador1.color == Color.Blancas else { Color.Blancas : jugador2, Color.Negras : jugador1 }
 
     #Aplica la mejor jugada del jugador con color "color", modificando el tablero actual
     #"color" es el string "blancas" o "negras"
@@ -51,4 +50,6 @@ class Juego:
                 self.tablero.imprimir_tablero_con_fichas()
             turnos += 1
             #print("Turnos = {turnos}".format(turnos=turnos))
+        print("Tablero final")
+        self.tablero.imprimir_tablero_con_fichas()
         return self.__ganador()
