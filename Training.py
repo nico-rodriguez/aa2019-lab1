@@ -46,7 +46,7 @@ if __name__ == '__main__':
         jugador1.cargar_pesos(jugador1_str)
         jugador2 = AI(Color.Negras, "AI2", None, False, factor_aprendizaje)
         print("Leyendo pesos del jugador 2")
-        jugador1.cargar_pesos(jugador2_str)
+        jugador2.cargar_pesos(jugador2_str)
         if len(sys.argv) != 5:
             print("***Número incorrecto de parámetros***")
             print(uso)
@@ -113,7 +113,7 @@ if __name__ == '__main__':
         #Para debugging
         print("Partida {partida} => Ganó {ganador}.".format(partida=i, ganador=ganador))
         # Chequear que el ganador sea la AI o la AI más reciente (AI1)
-        if "AI" in ganador:
+        if ganador is not None and "AI" in ganador:
             if ganador != "AI2":
                 victorias += 1
         print("Victorias = {victorias}".format(victorias=victorias))

@@ -50,9 +50,9 @@ class Juego:
                 self.tablero.imprimir_tablero_con_fichas()
             turnos += 1
             #print("Turnos = {turnos}".format(turnos=turnos))
-            if turnos >= 10000:
-                self.jugadores[Colores.Negras].empate()
-                self.jugadores[Colores.Blancas].empate()
+            if turnos >= 1000:
+                self.jugadores[Color.Negras].empate()
+                self.jugadores[Color.Blancas].empate()
                 break
         print("Tablero final")
         self.tablero.imprimir_tablero_con_fichas()
