@@ -20,6 +20,10 @@ class Jugador(object):
     def perdi(self, tablero):
         pass
 
+    @abstractmethod
+    def empate(self):
+        pass
+
 class Aleatorio(Jugador):
 
     def __init__(self, color, nombre):
@@ -103,6 +107,14 @@ class AI(Jugador):
         if (self.entrenando):
             print("Ai perdio, registrando tupla para propagar")
             valoracion_actual = self.valoracion(tablero.obtener_tupla())
+            self.tupla_entrenamiento_a_grabar += [valoracion_actual]
+            self.grabar_datos_en_disco(self.tupla_entrenamiento_a_grabar, self.archivo_entrenamiento)
+        self.tupla_entrenamiento_a_grabar = None
+    
+    def empate(self):
+        if (self.entrenando):
+            print("Empate")
+            valoracion_actual = 0
             self.tupla_entrenamiento_a_grabar += [valoracion_actual]
             self.grabar_datos_en_disco(self.tupla_entrenamiento_a_grabar, self.archivo_entrenamiento)
         self.tupla_entrenamiento_a_grabar = None
