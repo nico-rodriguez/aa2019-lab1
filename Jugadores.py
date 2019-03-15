@@ -20,6 +20,10 @@ class Jugador(object):
     def perdi(self, tablero):
         pass
 
+    @abstractmethod
+    def empate(self):
+        pass
+
 class Aleatorio(Jugador):
 
     def __init__(self, color, nombre):
@@ -78,6 +82,7 @@ class AI(Jugador):
         self.factor_aprendizaje = factor_aprendizaje
         self.color_oponente = Color.Negras if color == Color.Blancas else Color.Blancas
         self.archivo_entrenamiento = "entrenamiento.txt"
+        self.archivo_pesos = None
         self.tupla_entrenamiento_a_grabar = None
         
     # FUNCIONES DEL ALGORITMO
@@ -102,6 +107,14 @@ class AI(Jugador):
         if (self.entrenando):
             print("Ai perdio, registrando tupla para propagar")
             valoracion_actual = self.valoracion(tablero.obtener_tupla())
+            self.tupla_entrenamiento_a_grabar += [valoracion_actual]
+            self.grabar_datos_en_disco(self.tupla_entrenamiento_a_grabar, self.archivo_entrenamiento)
+        self.tupla_entrenamiento_a_grabar = None
+    
+    def empate(self):
+        if (self.entrenando):
+            print("Empate")
+            valoracion_actual = 0
             self.tupla_entrenamiento_a_grabar += [valoracion_actual]
             self.grabar_datos_en_disco(self.tupla_entrenamiento_a_grabar, self.archivo_entrenamiento)
         self.tupla_entrenamiento_a_grabar = None
@@ -140,7 +153,7 @@ class AI(Jugador):
                     if valoracion_maxima is None or valoracion > valoracion_maxima:
                         valoracion_maxima = valoracion
                         ficha_maxima = ficha
-                        movimiento_maximo = movimiento
+                        movimiento_maximo = movimiento 
         tablero.actualizar_tablero(ficha_maxima, movimiento_maximo, self.color)
         return tablero
 
@@ -160,23 +173,29 @@ class AI(Jugador):
         lista_tuplas_sin_procesar_aux = [tupla.strip() for tupla in lista_tuplas_sin_procesar_aux]
         lista_tuplas_sin_procesar = list(reversed(lista_tuplas_sin_procesar_aux))
         archivo_entrenamiento.close()
+        n = 0
         for tupla_sin_procesar in lista_tuplas_sin_procesar:
             tupla = []
             tupla = tupla_sin_procesar.split()
             v_train = float(tupla[8])
             for idx in range(0,8):
-                tupla[idx] = int(tupla[idx])
+                tupla[idx] = float(tupla[idx])
             v_tupla = self.valoracion(tupla[0:8])
             error_valoracion = (v_train - v_tupla)
-            self.pesos[0] = self.pesos[0] + self.factor_aprendizaje * error_valoracion
+            self.pesos[0] = self.pesos[0] + self.factor_aprendizaje * error_valoracion * (.98**n)
             for i in range(len(tupla)-1):
-                self.pesos[i+1] = self.pesos[i+1] + self.factor_aprendizaje * error_valoracion * tupla[i]
-        self.grabar_datos_en_disco(self.pesos, pesos_finales)
+                self.pesos[i+1] = self.pesos[i+1] + self.factor_aprendizaje * error_valoracion * tupla[i] * (.98**n)
+            n += 1
+        for i in range(len(self.pesos)):
+            self.grabar_datos_en_disco([self.pesos[i]], self.archivo_pesos + str(i) +".txt")
 
     # FUNCIONES DE MANEJO DE ARCHIVOS
 
     def set_archivo_entrenamiento(self, ruta_archivo):
         self.archivo_entrenamiento = ruta_archivo
+    
+    def set_archivo_pesos(self, ruta_archivo):
+        self.archivo_pesos = ruta_archivo
 
     #  Lee los pesos del archivo de pesos y los carga en los atributos del jugador
     def cargar_pesos(self, ruta_archivo):
@@ -194,8 +213,9 @@ class AI(Jugador):
         return pesos
 
     # Escribe en el archivo de pesos, los atributos de los pesos
-    def guardar_pesos(self, archivo_pesos):
+    def guardar_pesos(self):
         pesos_a_guardar = self.pesos.copy()
+        archivo_pesos = self.archivo_pesos + "_finales.txt"
         self.grabar_datos_en_disco(pesos_a_guardar, archivo_pesos)
     
     # dados unos datos en forma de lista y un archivo objetivo, 
