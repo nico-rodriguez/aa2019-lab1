@@ -67,8 +67,6 @@ class Aleatorio(Jugador):
         return
     
 class AI(Jugador):
-    
-    weights_file_path = "pesos.txt"
 
     def __init__(self, color, nombre, pesos, entrenando, factor_aprendizaje):
         super(AI, self).__init__(color, nombre)
@@ -105,7 +103,6 @@ class AI(Jugador):
 
     def perdi(self, tablero):
         if (self.entrenando):
-            print("Ai perdio, registrando tupla para propagar")
             valoracion_actual = self.valoracion(tablero.obtener_tupla())
             self.tupla_entrenamiento_a_grabar += [valoracion_actual]
             self.grabar_datos_en_disco(self.tupla_entrenamiento_a_grabar, self.archivo_entrenamiento)
@@ -167,7 +164,7 @@ class AI(Jugador):
 
 	# Parsea el archvio con los valores de entrenamiento y realiza el ajuste de mínimos cuadrados
     def ajuste_minimos_cuadrados(self):
-        print("ajusto_minimos_cuadrados")
+        print("Ajuste de mínimos cuadrados")
         archivo_entrenamiento = open(self.archivo_entrenamiento, 'r')
         lista_tuplas_sin_procesar_aux = archivo_entrenamiento.readlines()
         lista_tuplas_sin_procesar_aux = [tupla.strip() for tupla in lista_tuplas_sin_procesar_aux]

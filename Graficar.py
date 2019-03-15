@@ -17,7 +17,6 @@ def graficar_peso(directorio_guardar, ruta_archivo_peso, numero_peso):
 			break
 
 		linea = linea.split()[0]
-		print(linea)
 		linea = float(linea)
 		valores_peso.append(linea)
 
@@ -31,3 +30,4 @@ def graficar_peso(directorio_guardar, ruta_archivo_peso, numero_peso):
 	plt.ylabel("Valor de w_{num}".format(num=numero_peso))
 	# Guardar los gráficos con nombre "peso_i.png"
 	plt.savefig(directorio_guardar + "/peso{i}.png".format(i=numero_peso))
+	plt.close()
