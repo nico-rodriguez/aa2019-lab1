@@ -79,6 +79,7 @@ if __name__ == '__main__':
         exit()
 
     victorias = 0
+    empates = 0
 
     # Crear un directorio para guardar los datos de entrenamiento
     currentDT = datetime.datetime.now()
@@ -87,9 +88,13 @@ if __name__ == '__main__':
     print("Se crea el directorio {dir}".format(dir=directorio))
 
     # Almacena la cantidad de victorias cada 10, 20, 30 ... partidas
-    evolucion = []
-    evolucion_formateado = []
+    evolucion_victorias = []
+    # Almacena la cantidad de empates cada 10, 20, 30 ... partidas
+    evolucion_empates = []
+    evolucion_victorias_formateado = []
+    evolucion_empates_formateado = []
     victorias_aux = None
+    empates_aux = None
 
     print("Comenzando la serie de partidas")
     for i in range(num_partidas):
@@ -117,7 +122,10 @@ if __name__ == '__main__':
         if ganador is not None and "AI" in ganador:
             if ganador != "AI2":
                 victorias += 1
+        elif ganador is None:
+            empates += 1
         print("Victorias = {victorias}".format(victorias=victorias))
+        print("Empates = {empates}".format(empates=empates))
         # Llamar ajuste de minimos cuadrados de Jugadores.py
         jugador1.ajuste_minimos_cuadrados()
         # Decidir y actualizar los pesos de la version previa del AI2
@@ -126,31 +134,55 @@ if __name__ == '__main__':
             lista_pesos_previos.append(jugador1.pesos.copy())
             # Comenzar a pasarle los pesos previos de la AI
             if len(lista_pesos_previos) >= diferencia_partidas:
+                # Ajustar el signo de los pesos que le pasamos a la otra AI
                 jugador2.pesos = lista_pesos_previos[0]
+                for j in range(len(jugador2.pesos)):
+                    jugador2.pesos[j] = -jugador2.pesos[j]
                 lista_pesos_previos.remove(lista_pesos_previos[0])
 
-        # Actualizar evolución de victorias de la AI (si num_partidas es al menos 30)
+        # Actualizar evolución de victorias y empates de la AI (si num_partidas es al menos 30)
         # cada 10 partidas
         if victorias_aux is None:
             victorias_aux = 0
+        if empates_aux is None:
+            empates_aux = 0
         
         if num_partidas >= 30:
             if (i+1) % 10 == 0:
+                # Registrar rango de victorias
                 victorias_rango = victorias - victorias_aux 
-                evolucion.append(victorias_rango)
+                evolucion_victorias.append(victorias_rango)
                 victorias_aux = victorias
+                # Registrar rango de empates
+                empates_rango = empates - empates_aux
+                evolucion_empates.append(empates_rango)
+                empates_aux = empates
 
     # Imprimr los resultados de la evolución de victorias de la AI
-    for i in range(len(evolucion)):
-        string_evol_formateado = "AI: {ganadas} / 10 => {porcentaje}%".format(ganadas=evolucion[i], porcentaje=evolucion[i]/10*100)
-        print(string_evol_formateado)
-        string_evol_formateado += "\n"
-        evolucion_formateado.append(string_evol_formateado)
-    string_evol_formateado = "La AI ganó el {porcentaje}% de las veces".format(porcentaje=victorias/num_partidas*100)
-    print(string_evol_formateado)
-    string_evol_formateado += "\n"
-    evolucion_formateado.append(string_evol_formateado)
-    jugador1.grabar_datos_en_disco(evolucion_formateado, directorio + "/" + "resumen_winrate.txt")           
+    print("Evolución de victorias de la AI")
+    for i in range(len(evolucion_victorias)):
+        string_evol_vict_formateado = "AI: {ganadas} / 10 => {porcentaje}%".format(ganadas=evolucion_victorias[i], porcentaje=evolucion_victorias[i]/10*100)
+        print(string_evol_vict_formateado)
+        string_evol_vict_formateado += "\n"
+        evolucion_victorias_formateado.append(string_evol_vict_formateado)
+    # Imprimr los resultados de la evolución de victorias de la AI
+    print("Evolución de empates")
+    for i in range(len(evolucion_empates)):
+        string_evol_emp_formateado = "AI: {empatadas} / 10 => {porcentaje}%".format(empatadas=evolucion_empates[i], porcentaje=evolucion_empates[i]/10*100)
+        print(string_evol_emp_formateado)
+        string_evol_emp_formateado += "\n"
+        evolucion_empates_formateado.append(string_evol_emp_formateado)
+
+    string_evol_vict_formateado = "La AI ganó el {porcentaje}% de las veces".format(porcentaje=victorias/num_partidas*100)
+    string_evol_emp_formateado = "La AI empató el {porcentaje}% de las veces".format(porcentaje=empates/num_partidas*100)
+    print(string_evol_vict_formateado)
+    print(string_evol_emp_formateado)
+    string_evol_vict_formateado += "\n"
+    string_evol_emp_formateado += "\n"
+    evolucion_victorias_formateado.append(string_evol_vict_formateado)
+    evolucion_empates_formateado.append(string_evol_emp_formateado)
+    jugador1.grabar_datos_en_disco(evolucion_victorias_formateado, directorio + "/" + "resumen_winrate.txt")
+    jugador1.grabar_datos_en_disco(evolucion_empates_formateado, directorio + "/" + "resumen_tierate.txt")           
     # Escribe en el archivo de pesos finales un separador
     jugador1.guardar_pesos()
 
