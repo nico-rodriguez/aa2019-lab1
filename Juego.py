@@ -36,23 +36,24 @@ class Juego:
 
     #Jugar una partida entre los jugadores que son atributos de la clase Juego
     #Devuelve el color del ganador
-    def jugar(self):
+    def jugar(self, color_que_empieza):
         turnos = 0
+        color_segundo = Color.Negras if color_que_empieza == Color.Blancas else Color.Blancas
         while not self.__hay_ganador():
-            self.__jugada(Color.Blancas)
+            self.__jugada(color_que_empieza)
             if not self.__hay_ganador():
-                self.__jugada(Color.Negras)
+                self.__jugada(color_segundo)
                 if self.__hay_ganador():
-                    self.jugadores[Color.Blancas].perdi(self.tablero)
+                    self.jugadores[color_que_empieza].perdi(self.tablero)
             else:
-                self.jugadores[Color.Negras].perdi(self.tablero)
+                self.jugadores[color_segundo].perdi(self.tablero)
             if turnos % 100 == 0:
                 self.tablero.imprimir_tablero_con_fichas()
             turnos += 1
             #print("Turnos = {turnos}".format(turnos=turnos))
             if turnos >= 500:
-                self.jugadores[Color.Negras].empate()
-                self.jugadores[Color.Blancas].empate()
+                self.jugadores[color_que_empieza].empate()
+                self.jugadores[color_segundo].empate()
                 break
         print("Tablero final")
         self.tablero.imprimir_tablero_con_fichas()
