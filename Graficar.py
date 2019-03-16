@@ -31,3 +31,18 @@ def graficar_peso(directorio_guardar, ruta_archivo_peso, numero_peso):
 	# Guardar los gráficos con nombre "peso_i.png"
 	plt.savefig(directorio_guardar + "/peso{i}.png".format(i=numero_peso))
 	plt.close()
+
+# Graficar el winrate. Recibe los valores del winrate en una lista.
+def graficar_winrate(directorio_guardar, lista_winrate):
+
+	# Generar una lista con el porcentaje de victorias
+	for i in range(len(lista_winrate)):
+		lista_winrate[i] *= 10
+	# Generar el gráfico
+	plt.plot(list(range(len(lista_winrate))), lista_winrate)
+	plt.title("Evolucion de %victorias de la AI")
+	plt.xlabel("Partidas")
+	plt.ylabel("%victorias")
+	# Guardar los gráficos con nombre "peso_i.png"
+	plt.savefig(directorio_guardar + "/winrate.png")
+	plt.close()

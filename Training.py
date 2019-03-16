@@ -42,7 +42,7 @@ if __name__ == '__main__':
     if jugador1_str != "Aleatorio" and jugador2_str != "Aleatorio":
         lista_pesos_previos = []      # para pasarselos a la "versión previa" de la AI
         jugadores = ["AI1", "AI2"]
-        jugador1 = AI(Color.Blancas, "AI1", None, False, factor_aprendizaje)
+        jugador1 = AI(Color.Blancas, "AI1", None, True, factor_aprendizaje)
         print("Leyendo pesos del jugador 1")
         jugador1.cargar_pesos(jugador1_str)
         jugador2 = AI(Color.Negras, "AI2", None, False, factor_aprendizaje)
@@ -198,3 +198,6 @@ if __name__ == '__main__':
     # El 9 es el número de pesos
     for i in range(9):
         Graficar.graficar_peso(directorio, directorio + "/peso{num}.txt".format(num=i), i)
+
+    # Realizar las gráficas del winrate
+    Graficar.graficar_winrate(directorio, evolucion_victorias)
