@@ -39,11 +39,11 @@ class Juego:
     def jugar(self, color_que_empieza):
         turnos = 0
         color_segundo = Color.Negras if color_que_empieza == Color.Blancas else Color.Blancas
-        self.tablero.imprimir_tablero_con_fichas()
-        self.tablero.imprimir_tupla()
-        self.tablero.imprimir_fichas()
         while not self.__hay_ganador():
             self.__jugada(color_que_empieza)
+            self.tablero.imprimir_tablero_con_fichas()
+            self.tablero.imprimir_tupla()
+            self.tablero.imprimir_fichas()
             if not self.__hay_ganador():
                 self.__jugada(color_segundo)
                 if self.__hay_ganador():
@@ -51,6 +51,8 @@ class Juego:
             else:
                 self.jugadores[color_segundo].perdi(self.tablero)
             turnos += 1
+
+
 
             #print("Turnos = {turnos}".format(turnos=turnos))
             if turnos >= 500:
