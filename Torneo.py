@@ -81,16 +81,14 @@ if __name__ == '__main__':
     evolucion_empates_formateado = []
     victorias_aux = None
     empates_aux = None
+    color_que_empieza = Color.Blancas
 
     print("Comenzando la serie de partidas")
     for i in range(num_partidas):
         print("Comenzando partida {num}".format(num=i+1))
-        # Crear archivo vacio para los valores de entrenamiento
-        if i % 2 == 0:
-            juego = Juego(jugador2, jugador1)
-        else:
-            juego = Juego(jugador1, jugador2)
-        ganador = juego.jugar()
+        juego = Juego(jugador2, jugador1)
+        ganador = juego.jugar(color_que_empieza)
+        color_que_empieza = Color.Blancas if (color_que_empieza == Color.Negras) else Color.Negras
         #Para debugging
         print("Partida {partida} => Ganó {ganador}.".format(partida=i+1, ganador=ganador))
         # Chequear que el ganador sea la AI o la AI más reciente (AI1)
