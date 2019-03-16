@@ -42,7 +42,7 @@ if __name__ == '__main__':
     if jugador1_str != "Aleatorio" and jugador2_str != "Aleatorio":
         lista_pesos_previos = []      # para pasarselos a la "versión previa" de la AI
         jugadores = ["AI1", "AI2"]
-        jugador1 = AI(Color.Blancas, "AI1", None, True, factor_aprendizaje)
+        jugador1 = AI(Color.Blancas, "AI1", None, False, factor_aprendizaje)
         print("Leyendo pesos del jugador 1")
         jugador1.cargar_pesos(jugador1_str)
         jugador2 = AI(Color.Negras, "AI2", None, False, factor_aprendizaje)
@@ -96,6 +96,8 @@ if __name__ == '__main__':
     evolucion_empates_formateado = []
     victorias_aux = None
     empates_aux = None
+    partidos_desde_ultimo_ajuste = 0
+    color_que_empieza = Color.Blancas
 
     print("Comenzando la serie de partidas")
     for i in range(num_partidas):
@@ -112,11 +114,9 @@ if __name__ == '__main__':
         except Exception as e:
             print("Training.py: Error creando el archivo de entrenamiento")
             raise e
-        if i % 2 == 0:
-            juego = Juego(jugador2, jugador1)
-        else:
-            juego = Juego(jugador1, jugador2)
-        ganador = juego.jugar()
+        juego = Juego(jugador2, jugador1)
+        ganador = juego.jugar(color_que_empieza)
+        color_que_empieza = Color.Blancas if (color_que_empieza == Color.Negras) else Color.Negras
         #Para debugging
         print("Partida {partida} => Ganó {ganador}.".format(partida=i+1, ganador=ganador))
         # Chequear que el ganador sea la AI o la AI más reciente (AI1)
@@ -132,14 +132,15 @@ if __name__ == '__main__':
         # Decidir y actualizar los pesos de la version previa del AI2
         if not(diferencia_partidas is None):
             # Registrar los pesos para pasarselos a la "versión previa" de la AI
-            lista_pesos_previos.append(jugador1.pesos.copy())
+            lista_pesos_previos = jugador1.pesos.copy()
             # Comenzar a pasarle los pesos previos de la AI
-            if len(lista_pesos_previos) >= diferencia_partidas:
+            if partidos_desde_ultimo_ajuste >= diferencia_partidas:
                 # Ajustar el signo de los pesos que le pasamos a la otra AI
-                jugador2.pesos = lista_pesos_previos[0]
-                for j in range(len(jugador2.pesos)):
-                    jugador2.pesos[j] = -jugador2.pesos[j]
-                lista_pesos_previos.remove(lista_pesos_previos[0])
+                jugador2.pesos = lista_pesos_previos
+                jugador2.alternar_pesos()
+                partidos_desde_ultimo_ajuste = 0
+            else:
+                partidos_desde_ultimo_ajuste += 1
 
         # Actualizar evolución de victorias y empates de la AI (si num_partidas es al menos 30)
         # cada 10 partidas
@@ -148,8 +149,8 @@ if __name__ == '__main__':
         if empates_aux is None:
             empates_aux = 0
         
-        if num_partidas >= 30:
-            if (i+1) % 10 == 0:
+        if num_partidas >= 30 and diferencia_partidas is not None:
+            if (i+1) % diferencia_partidas == 0:
                 # Registrar rango de victorias
                 victorias_rango = victorias - victorias_aux 
                 evolucion_victorias.append(victorias_rango)
@@ -162,14 +163,20 @@ if __name__ == '__main__':
     # Imprimr los resultados de la evolución de victorias de la AI
     print("Evolución de victorias de la AI")
     for i in range(len(evolucion_victorias)):
-        string_evol_vict_formateado = "AI: {ganadas} / 10 => {porcentaje}%".format(ganadas=evolucion_victorias[i], porcentaje=evolucion_victorias[i]/10*100)
+        if diferencia_partidas is not None:
+            string_evol_vict_formateado = "AI: {ganadas} / {dif_p} => {porcentaje}%".format(ganadas=evolucion_victorias[i], dif_p = diferencia_partidas, porcentaje=evolucion_victorias[i]/diferencia_partidas*100)            
+        else:
+            string_evol_vict_formateado = "AI: {ganadas} / 10 => {porcentaje}%".format(ganadas=evolucion_victorias[i], porcentaje=evolucion_victorias[i]/10*100)
         print(string_evol_vict_formateado)
         string_evol_vict_formateado += "\n"
         evolucion_victorias_formateado.append(string_evol_vict_formateado)
     # Imprimr los resultados de la evolución de victorias de la AI
     print("Evolución de empates")
     for i in range(len(evolucion_empates)):
-        string_evol_emp_formateado = "AI: {empatadas} / 10 => {porcentaje}%".format(empatadas=evolucion_empates[i], porcentaje=evolucion_empates[i]/10*100)
+        if diferencia_partidas is not None:
+            string_evol_emp_formateado = "AI: {empatadas} / {dif_p} => {porcentaje}%".format(empatadas=evolucion_empates[i], dif_p = diferencia_partidas, porcentaje=evolucion_empates[i]/diferencia_partidas*100)        
+        else:
+            string_evol_emp_formateado = "AI: {empatadas} / 10 => {porcentaje}%".format(empatadas=evolucion_empates[i], porcentaje=evolucion_empates[i]/10*100)
         print(string_evol_emp_formateado)
         string_evol_emp_formateado += "\n"
         evolucion_empates_formateado.append(string_evol_emp_formateado)

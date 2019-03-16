@@ -201,6 +201,7 @@ class AI(Jugador):
             aux = self.pesos[i+1]
             self.pesos[i+1] = self.pesos[i]
             self.pesos[i] = aux
+        self.pesos[0] = -self.pesos[0]
 
     # Lee los pesos del archivo de pesos y los carga en los atributos del jugador
     def cargar_pesos(self, ruta_archivo):
