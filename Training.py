@@ -191,3 +191,6 @@ if __name__ == '__main__':
     # El 9 es el número de pesos
     for i in range(9):
         Graficar.graficar_peso(directorio, directorio + "/peso{num}.txt".format(num=i), i)
+
+    # Realizar las gráficas del winrate
+    Graficar.graficar_winrate(directorio, evolucion_victorias)
