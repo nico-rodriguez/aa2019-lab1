@@ -193,8 +193,16 @@ class AI(Jugador):
     
     def set_archivo_pesos(self, ruta_archivo):
         self.archivo_pesos = ruta_archivo
+        
+    # Alterna los pesos para las blancas, negras cambiando xi por xi+1 y xi+1 por xi para i > 0
+    # Si esta para las blancas alterna a las negras y viceversa
+    def alternar_pesos(self):
+        for i in [1,3,5,7]:
+            aux = self.pesos[i+1]
+            self.pesos[i+1] = self.pesos[i]
+            self.pesos[i] = aux
 
-    #  Lee los pesos del archivo de pesos y los carga en los atributos del jugador
+    # Lee los pesos del archivo de pesos y los carga en los atributos del jugador
     def cargar_pesos(self, ruta_archivo):
         try:
             archivo_pesos=open(ruta_archivo,"r") 
@@ -231,7 +239,8 @@ class AI(Jugador):
 
 if __name__ == '__main__':
     jug = AI(Color.Negras, "AI1", None, True, 0.2)
-    jug.guardar_pesos("pesos.txt")
-    jug.grabar_datos_en_disco([1,1,3,0,5,5,1,1,0.2], "entrenamiento.txt")
-    jug.grabar_datos_en_disco([1,1,3,0,5,5,0,1,0.1], "entrenamiento.txt")
-    jug.ajuste_minimos_cuadrados()
+    jug.cargar_pesos("pesos.txt")
+    print(jug.pesos)
+    jug.alternar_pesos()
+    print(jug.pesos)
+    
