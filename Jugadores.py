@@ -130,6 +130,7 @@ class AI(Jugador):
         # buscar jugada
         fichas = tablero.negras if self.color == Color.Negras else tablero.blancas
         valoracion_maxima = None
+        movimientos_maximos = []
         for ficha in fichas:
             for movimiento in tablero.posibles_movimientos(ficha):
                 nuevo_posible_tablero = tablero.copy()
@@ -150,8 +151,14 @@ class AI(Jugador):
                     if valoracion_maxima is None or valoracion > valoracion_maxima:
                         valoracion_maxima = valoracion
                         ficha_maxima = ficha
-                        movimiento_maximo = movimiento 
-        tablero.actualizar_tablero(ficha_maxima, movimiento_maximo, self.color)
+                        movimiento_maximo = movimiento
+                        movimientos_maximos = [(ficha_maxima, movimiento_maximo)]
+                    elif valoracion_maxima == valoracion:
+                        ficha_maxima = ficha
+                        movimiento_maximo = movimiento
+                        movimientos_maximos.append((ficha_maxima, movimiento_maximo))
+        jugada_azar = random.choice(range(0, len(movimientos_maximos)))
+        tablero.actualizar_tablero(movimientos_maximos[jugada_azar][0], movimientos_maximos[jugada_azar][1], self.color)
         return tablero
 
     # no es necesaria ahora?
