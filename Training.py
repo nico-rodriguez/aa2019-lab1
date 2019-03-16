@@ -50,11 +50,7 @@ if __name__ == '__main__':
         print("Leyendo pesos del jugador 2")
         jugador2.cargar_pesos(jugador2_str)
         jugador2.alternar_pesos()
-        if len(sys.argv) != 5:
-            print("***Número incorrecto de parámetros***")
-            print(uso)
-            exit()
-        else:
+        if len(sys.argv) == 6:
             diferencia_partidas = int(sys.argv[5])
             if diferencia_partidas <= 0:
                 print("***Valor incorrecto en la diferencia de partidas. Debe ser positivo.***")
