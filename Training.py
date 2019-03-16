@@ -48,6 +48,7 @@ if __name__ == '__main__':
         jugador2 = AI(Color.Negras, "AI2", None, False, factor_aprendizaje)
         print("Leyendo pesos del jugador 2")
         jugador2.cargar_pesos(jugador2_str)
+        jugador2.alternar_pesos()
         if len(sys.argv) != 5:
             print("***Número incorrecto de parámetros***")
             print(uso)
