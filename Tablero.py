@@ -249,6 +249,13 @@ class Tablero:
 		print("Fichas blancas: {len(tablero.blancas)}")
 		print("Fichas negras: {len(tablero.negras)}")
 
+	def imprimir_tupla(self):
+		print(self.obtener_tupla())
+
+	def imprimir_fichas(self):
+		print("Fichas blancas:",self.blancas)
+		print("Fichas negras:",self.negras)
+
 	def imprimir_tablero_con_fichas(self):
 
 		ancho = round(25/2)

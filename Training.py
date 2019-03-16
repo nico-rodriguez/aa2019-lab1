@@ -1,6 +1,5 @@
 from Juego import *
 from Jugadores import *
-import Graficar
 import sys
 import datetime
 import os
@@ -193,11 +192,3 @@ if __name__ == '__main__':
     jugador1.grabar_datos_en_disco(evolucion_empates_formateado, directorio + "/" + "resumen_tierate.txt")           
     # Escribe en el archivo de pesos finales un separador
     jugador1.guardar_pesos()
-
-    # Realizar las gráficas de los pesos y guardarlas como png's
-    # El 9 es el número de pesos
-    for i in range(9):
-        Graficar.graficar_peso(directorio, directorio + "/peso{num}.txt".format(num=i), i)
-
-    # Realizar las gráficas del winrate
-    Graficar.graficar_winrate(directorio, evolucion_victorias)
