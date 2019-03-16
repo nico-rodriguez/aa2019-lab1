@@ -2,12 +2,12 @@ from Juego import *
 from Jugadores import *
 import Graficar
 import sys
-import datetime
 import os
 
 uso = """
 Invocar como python3 Torneo.py [jugador1] [jugador2] [numero de partidas]
 donde jugador1 y jugador2 pueden ser una ruta a un archivo con pesos o "Aleatorio".
+"nombre directorio" es el nombre del directorio en donde se guardan los resultados.
 Los pesos deben estar escritos en una sola línea y separados por espacios.
 En el caso en que ambos sean AIs, los pesos de la AI más reciente deben pasarse
 en jugador1. La AI que entrena siempre es la que se pasa en jugador 1. 
@@ -23,14 +23,15 @@ if __name__ == '__main__':
     print ('Number of arguments:', len(sys.argv), 'arguments.')
     print ('Argument List:', str(sys.argv))
     #Chequear número y valores de los argumentos
-    if not(len(sys.argv) == 4):
+    if not(len(sys.argv) == 5):
         print("***Número incorrecto de parámetros***")
         print(uso)
         exit()
 
-    jugador1_str = sys.argv[1]
-    jugador2_str = sys.argv[2]
-    num_partidas = int(sys.argv[3])
+    directorio = sys.argv[1]
+    jugador1_str = sys.argv[2]
+    jugador2_str = sys.argv[3]
+    num_partidas = int(sys.argv[4])
 
     jugadores = []
     print("Creando jugadores")
@@ -68,8 +69,6 @@ if __name__ == '__main__':
     empates = 0
 
     # Crear un directorio para guardar los datos de entrenamiento
-    currentDT = datetime.datetime.now()
-    directorio = currentDT.strftime("Torneo %Y-%m-%d-%H%M%S")
     os.mkdir(directorio)
     print("Se crea el directorio {dir}".format(dir=directorio))
 
