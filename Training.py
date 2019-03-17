@@ -154,6 +154,16 @@ if __name__ == '__main__':
                 empates_rango = empates - empates_aux
                 evolucion_empates.append(empates_rango)
                 empates_aux = empates
+        elif diferencia_partidas is None:
+            if (i+1) % 10 == 0:
+                # Registrar rango de victorias
+                victorias_rango = victorias - victorias_aux 
+                evolucion_victorias.append(victorias_rango)
+                victorias_aux = victorias
+                # Registrar rango de empates
+                empates_rango = empates - empates_aux
+                evolucion_empates.append(empates_rango)
+                empates_aux = empates
 
     # Imprimr los resultados de la evolución de victorias de la AI
     print("Evolución de victorias de la AI")
