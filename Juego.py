@@ -51,7 +51,7 @@ class Juego:
                 self.tablero.imprimir_tablero_con_fichas()
             turnos += 1
             #print("Turnos = {turnos}".format(turnos=turnos))
-            if turnos >= 500:
+            if turnos >= 300:
                 self.jugadores[color_que_empieza].empate()
                 self.jugadores[color_segundo].empate()
                 break
