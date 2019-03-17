@@ -52,7 +52,7 @@ valoracion_maxima = 1
 valoracion_minima = -1
 
 # Valor del factor de aprendizaje
-factor_aprendizaje = 0.00001
+factor_aprendizaje = 0.01
 
 # Nombre de archivo de pesos finales
 pesos_finales = "pesos_finales"

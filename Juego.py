@@ -47,8 +47,7 @@ class Juego:
                     self.jugadores[color_que_empieza].perdi(self.tablero)
             else:
                 self.jugadores[color_segundo].perdi(self.tablero)
-            if turnos % 100 == 0:
-                self.tablero.imprimir_tablero_con_fichas()
+            self.tablero.imprimir_tablero_con_fichas()
             turnos += 1
             #print("Turnos = {turnos}".format(turnos=turnos))
             if turnos >= 300:

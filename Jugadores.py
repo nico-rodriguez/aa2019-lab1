@@ -147,7 +147,8 @@ class AI(Jugador):
                         self.tupla_entrenamiento_a_grabar = None
                     return tablero
                 else:
-                    valoracion = self.valoracion(nuevo_posible_tablero.obtener_tupla())
+                    tablero_oponente = self.jugada_oponente(nuevo_posible_tablero.copy(), (Color.Blancas if self.color == Color.Negras else Color.Negras))
+                    valoracion = self.valoracion(tablero_oponente.obtener_tupla())
                     if valoracion_maxima is None or valoracion > valoracion_maxima:
                         valoracion_maxima = valoracion
                         ficha_maxima = ficha
@@ -159,6 +160,30 @@ class AI(Jugador):
                         movimientos_maximos.append((ficha_maxima, movimiento_maximo))
         jugada_azar = random.choice(range(0, len(movimientos_maximos)))
         tablero.actualizar_tablero(movimientos_maximos[jugada_azar][0], movimientos_maximos[jugada_azar][1], self.color)
+        return tablero
+
+    def jugada_oponente(self, tablero, color):
+
+        # buscar jugada
+        fichas = tablero.negras if color == Color.Negras else tablero.blancas
+        valoracion_maxima = None
+        movimientos_maximos = []
+        for ficha in fichas:
+            for movimiento in tablero.posibles_movimientos(ficha):
+                nuevo_posible_tablero = tablero.copy()
+                nuevo_posible_tablero.actualizar_tablero(ficha, movimiento, color)
+                valoracion = self.valoracion(nuevo_posible_tablero.obtener_tupla())
+                if valoracion_maxima is None or valoracion > valoracion_maxima:
+                    valoracion_maxima = valoracion
+                    ficha_maxima = ficha
+                    movimiento_maximo = movimiento
+                    movimientos_maximos = [(ficha_maxima, movimiento_maximo)]
+                elif valoracion_maxima == valoracion:
+                    ficha_maxima = ficha
+                    movimiento_maximo = movimiento
+                    movimientos_maximos.append((ficha_maxima, movimiento_maximo))
+        jugada_azar = random.choice(range(0, len(movimientos_maximos)))
+        tablero.actualizar_tablero(movimientos_maximos[jugada_azar][0], movimientos_maximos[jugada_azar][1], color)
         return tablero
 
     # no es necesaria ahora?
